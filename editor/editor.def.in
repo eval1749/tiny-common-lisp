@@ -1,0 +1,13 @@
+;;; editor.def.in
+;;;
+;;; This file is part of Evita
+;;;
+;;; Copyright (C) 2007-2008 by Project Vogue.
+;;; Written by Yoshifumi "VOGUE" INOUE. (yosi@msn.com)
+;;;
+;;; @(#)$Id: //proj/evedit2/mainline/editor/editor.def.in#2 $
+
+EXPORTS
+
+;; [D]
+discriminator

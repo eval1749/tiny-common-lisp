@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8E0A622F-98C3-4FCF-A946-03757C9DB4A7}</ProjectGuid>
+    <RootNamespace>editor</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>FastCall</CallingConvention>
+      <EnablePREfast>false</EnablePREfast>
+    </ClCompile>
+    <Link>
+      <ModuleDefinitionFile>$(OutDir)editor.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>
+      </EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>FastCall</CallingConvention>
+      <EnablePREfast>false</EnablePREfast>
+    </ClCompile>
+    <Link>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>$(OutDir)editor.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ResourceCompile Include="editor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="rtl_buffer.cpp" />
+    <ClCompile Include="rtl_frame.cpp" />
+    <ClCompile Include="rtl_hook.cpp" />
+    <ClCompile Include="rtl_interval.cpp" />
+    <ClCompile Include="rtl_misc.cpp" />
+    <ClCompile Include="rtl_range.cpp" />
+    <ClCompile Include="rtl_selection.cpp" />
+    <ClCompile Include="rtl_stream.cpp" />
+    <ClCompile Include="rtl_text_window.cpp" />
+    <ClCompile Include="rtl_window.cpp" />
+    <ClCompile Include="ed_buffer.cpp" />
+    <ClCompile Include="ed_buffer_core.cpp" />
+    <ClCompile Include="ed_buffer_file.cpp" />
+    <ClCompile Include="ed_buffer_text.cpp" />
+    <ClCompile Include="ed_buffer_undo.cpp" />
+    <ClCompile Include="ed_fns.cpp" />
+    <ClCompile Include="ed_interval.cpp" />
+    <ClCompile Include="ed_range.cpp" />
+    <ClCompile Include="ed_style.cpp" />
+    <ClCompile Include="ed_tracker.cpp" />
+    <ClCompile Include="ed_util.cpp" />
+    <ClCompile Include="peer\peer_application.cpp" />
+    <ClCompile Include="peer\peer_buffer_list.cpp" />
+    <ClCompile Include="peer\peer_container.cpp" />
+    <ClCompile Include="peer\peer_file_dialog.cpp" />
+    <ClCompile Include="peer\peer_file_io.cpp" />
+    <ClCompile Include="peer\peer_fns.cpp" />
+    <ClCompile Include="peer\peer_frame.cpp" />
+    <ClCompile Include="peer\peer_interactive_window.cpp" />
+    <ClCompile Include="peer\peer_main.cpp" />
+    <ClCompile Include="peer\peer_root_window.cpp" />
+    <ClCompile Include="peer\peer_split_container.cpp" />
+    <ClCompile Include="peer\peer_style.cpp" />
+    <ClCompile Include="peer\peer_tab_container.cpp" />
+    <ClCompile Include="peer\peer_text_page.cpp" />
+    <ClCompile Include="peer\peer_text_window.cpp" />
+    <ClCompile Include="peer\peer_window.cpp" />
+    <ClCompile Include="peer\peer_rich_box.cpp" />
+    <ClCompile Include="peer\peer_rich_dialog.cpp" />
+    <ClCompile Include="peer\peer_rich_node.cpp" />
+    <ClCompile Include="peer\peer_rich_view.cpp" />
+    <ClCompile Include="ed_frame.cpp" />
+    <ClCompile Include="ed_selection.cpp" />
+    <ClCompile Include="ed_text_window.cpp" />
+    <ClCompile Include="cm_cmdl.cpp" />
+    <ClCompile Include="cm_commands.cpp" />
+    <ClCompile Include="cm_find.cpp" />
+    <ClCompile Include="cm_keymap.cpp" />
+    <ClCompile Include="cm_mode.cpp" />
+    <ClCompile Include="peer\ctrl_StatusBar.cpp" />
+    <ClCompile Include="peer\ctrl_TabBand.cpp" />
+    <ClCompile Include="peer\ctrl_TitleBar.cpp" />
+    <ClCompile Include="ed_init.cpp" />
+    <ClCompile Include="rtl_init.cpp" />
+    <ClCompile Include="lexer\lexer_cxx.cpp" />
+    <ClCompile Include="lexer\lexer_fns.cpp" />
+    <ClCompile Include="lexer\lexer_generic.cpp" />
+    <ClCompile Include="lexer\lexer_text.cpp" />
+    <ClCompile Include="precomp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\tinycl\vcsupport.cpp" />
+    <ClCompile Include="..\tinycl\z_debug.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="rtl_defs.h" />
+    <ClInclude Include="ed_buffer.h" />
+    <ClInclude Include="ed_buffer_core.h" />
+    <ClInclude Include="ed_buffer_file.h" />
+    <ClInclude Include="ed_buffer_text.h" />
+    <ClInclude Include="ed_buffer_undo.h" />
+    <ClInclude Include="ed_defs.h" />
+    <ClInclude Include="ed_interval.h" />
+    <ClInclude Include="ed_range.h" />
+    <ClInclude Include="ed_style.h" />
+    <ClInclude Include="ed_tracker.h" />
+    <ClInclude Include="ed_util.h" />
+    <ClInclude Include="peer\peer_application.h" />
+    <ClInclude Include="peer\peer_buffer_list.h" />
+    <ClInclude Include="peer\peer_container.h" />
+    <ClInclude Include="peer\peer_defs.h" />
+    <ClInclude Include="peer\peer_file_dialog.h" />
+    <ClInclude Include="peer\peer_file_io.h" />
+    <ClInclude Include="peer\peer_frame.h" />
+    <ClInclude Include="peer\peer_interactive_window.h" />
+    <ClInclude Include="peer\peer_root_window.h" />
+    <ClInclude Include="peer\peer_split_container.h" />
+    <ClInclude Include="peer\peer_style.h" />
+    <ClInclude Include="peer\peer_tab_container.h" />
+    <ClInclude Include="peer\peer_text_page.h" />
+    <ClInclude Include="peer\peer_text_window.h" />
+    <ClInclude Include="peer\peer_window.h" />
+    <ClInclude Include="peer\peer_rich_box.h" />
+    <ClInclude Include="peer\peer_rich_dialog.h" />
+    <ClInclude Include="peer\peer_rich_node.h" />
+    <ClInclude Include="peer\peer_rich_view.h" />
+    <ClInclude Include="ed_frame.h" />
+    <ClInclude Include="ed_selection.h" />
+    <ClInclude Include="ed_text_window.h" />
+    <ClInclude Include="ed_window.h" />
+    <ClInclude Include="cm_cmdl.h" />
+    <ClInclude Include="cm_keymap.h" />
+    <ClInclude Include="cm_mode.h" />
+    <ClInclude Include="peer\ctrl_StatusBar.h" />
+    <ClInclude Include="peer\ctrl_TabBand.h" />
+    <ClInclude Include="peer\ctrl_TitleBar.h" />
+    <ClInclude Include="ed_layout.h" />
+    <ClInclude Include="ed_objects.h" />
+    <ClInclude Include="lexer\lexer_cxx.h" />
+    <ClInclude Include="lexer\lexer_defs.h" />
+    <ClInclude Include="lexer\lexer_generic.h" />
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\tinycl\vcsupport.h" />
+    <ClInclude Include="..\tinycl\z_debug.h" />
+    <ClInclude Include="..\tinycl\z_defs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cm_commands.inc" />
+    <None Include="ed_layout.inc" />
+    <None Include="ed_objects.inc" />
+    <None Include="ed_vkeys.inc" />
+    <CustomBuild Include="editor.def.in">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)gendef.exe %(FullPath) $(SolutionDir)tinycl\rtl\tinycl_rtl.inc $(SolutionDir)\tinycl\tinycl_methods.inc   ..\tinycl\tinycl_macros.inc %(RootDir)%(Directory)\ed_rtl.inc %(RootDir)%(Directory)\cm_commands.inc &gt; $(OutDir)editor.def
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)gendef.exe;$(SolutionDir)tinycl\tinycl_macros.inc;$(SolutionDir)tinycl\tinycl_methods.inc;$(SolutionDir)tinycl\rtl\tinycl_rtl.inc;%(RootDir)%(Directory)cm_commands.inc;ed_rtl.inc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)editor.def;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)gendef.exe %(FullPath) $(SolutionDir)tinycl\rtl\tinycl_rtl.inc $(SolutionDir)\tinycl\tinycl_methods.inc   ..\tinycl\tinycl_macros.inc %(RootDir)%(Directory)\ed_rtl.inc %(RootDir)%(Directory)\cm_commands.inc &gt; $(OutDir)editor.def
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)gendef.exe;$(SolutionDir)tinycl\tinycl_macros.inc;$(SolutionDir)tinycl\tinycl_methods.inc;$(SolutionDir)tinycl\rtl\tinycl_rtl.inc;%(RootDir)%(Directory)cm_commands.inc;ed_rtl.inc;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)editor.def;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\console\console.vcxproj">
+      <Project>{3b30d037-c402-44c1-a789-d752b683f666}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\genesis\genesis.vcxproj">
+      <Project>{c9bf7958-bdc7-4643-9f45-fc91a1a2ecd6}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\regex\regex.vcxproj">
+      <Project>{ff811653-b705-45fc-9b2a-ab680d99ddbd}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\tinycl\gendef.vcxproj">
+      <Project>{74daf328-01b3-4bf3-9bbe-425373f3cbc6}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\tinycl\tinycl.vcxproj">
+      <Project>{c20d0f8e-47bf-41e8-8e7d-a2bafe300057}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

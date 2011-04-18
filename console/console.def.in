@@ -1,0 +1,16 @@
+;;; console.def.in
+;;;
+;;; This file is part of Tiny CL.
+;;;
+;;; Copyright (C) 2007-2008 by Project Vogue.
+;;; Written by Yoshifumi "VOGUE" INOUE. (yosi@msn.com)
+;;;
+;;; @(#)$Id: //proj/evedit2/mainline/console/console.def.in#2 $
+
+EXPORTS
+
+;; [I]
+invoke_debugger
+
+;; [D]
+discriminator

@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="rtl">
+      <UniqueIdentifier>{ac852fcb-4ebc-4de9-95d0-ec6ec2263775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="buffer">
+      <UniqueIdentifier>{3143c1ad-cf74-4fbc-8b1c-627b695489aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="peer">
+      <UniqueIdentifier>{94619f46-97cb-4fc9-b311-ce2430a82915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="peer\rich">
+      <UniqueIdentifier>{cb535e04-3067-4921-b471-29045433a216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="window">
+      <UniqueIdentifier>{4a35f2cb-2859-4c9c-8b30-5e0ea675b6e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="command">
+      <UniqueIdentifier>{ae2f9225-54c3-496e-9f00-4b32055586ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="control">
+      <UniqueIdentifier>{74f885fc-ffb7-44cd-b0ae-fa8880c6f78c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="init">
+      <UniqueIdentifier>{2d90a562-389f-4bb9-a593-014439fd48c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lexer">
+      <UniqueIdentifier>{117c18d2-fc94-4d48-ad96-4ac81f8dfe11}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="editor.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="rtl_buffer.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_frame.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_hook.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_interval.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_misc.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_range.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_selection.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_stream.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_text_window.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_window.cpp">
+      <Filter>rtl</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_buffer.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_buffer_core.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_buffer_file.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_buffer_text.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_buffer_undo.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_fns.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_interval.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_range.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_style.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_tracker.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_util.cpp">
+      <Filter>buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_application.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_buffer_list.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_container.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_file_dialog.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_file_io.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_fns.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_frame.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_interactive_window.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_main.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_root_window.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_split_container.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_style.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_tab_container.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_text_page.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_text_window.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_window.cpp">
+      <Filter>peer</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_rich_box.cpp">
+      <Filter>peer\rich</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_rich_dialog.cpp">
+      <Filter>peer\rich</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_rich_node.cpp">
+      <Filter>peer\rich</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\peer_rich_view.cpp">
+      <Filter>peer\rich</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_frame.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_selection.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_text_window.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="cm_cmdl.cpp">
+      <Filter>command</Filter>
+    </ClCompile>
+    <ClCompile Include="cm_commands.cpp">
+      <Filter>command</Filter>
+    </ClCompile>
+    <ClCompile Include="cm_find.cpp">
+      <Filter>command</Filter>
+    </ClCompile>
+    <ClCompile Include="cm_keymap.cpp">
+      <Filter>command</Filter>
+    </ClCompile>
+    <ClCompile Include="cm_mode.cpp">
+      <Filter>command</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\ctrl_StatusBar.cpp">
+      <Filter>control</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\ctrl_TabBand.cpp">
+      <Filter>control</Filter>
+    </ClCompile>
+    <ClCompile Include="peer\ctrl_TitleBar.cpp">
+      <Filter>control</Filter>
+    </ClCompile>
+    <ClCompile Include="ed_init.cpp">
+      <Filter>init</Filter>
+    </ClCompile>
+    <ClCompile Include="rtl_init.cpp">
+      <Filter>init</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\lexer_cxx.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\lexer_fns.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\lexer_generic.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\lexer_text.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="precomp.cpp" />
+    <ClCompile Include="..\tinycl\vcsupport.cpp" />
+    <ClCompile Include="..\tinycl\z_debug.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="rtl_defs.h">
+      <Filter>rtl</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_buffer.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_buffer_core.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_buffer_file.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_buffer_text.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_buffer_undo.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_defs.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_interval.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_range.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_style.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_tracker.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_util.h">
+      <Filter>buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_application.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_buffer_list.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_container.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_defs.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_file_dialog.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_file_io.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_frame.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_interactive_window.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_root_window.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_split_container.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_style.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_tab_container.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_text_page.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_text_window.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_window.h">
+      <Filter>peer</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_rich_box.h">
+      <Filter>peer\rich</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_rich_dialog.h">
+      <Filter>peer\rich</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_rich_node.h">
+      <Filter>peer\rich</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\peer_rich_view.h">
+      <Filter>peer\rich</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_frame.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_selection.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_text_window.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_window.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="cm_cmdl.h">
+      <Filter>command</Filter>
+    </ClInclude>
+    <ClInclude Include="cm_keymap.h">
+      <Filter>command</Filter>
+    </ClInclude>
+    <ClInclude Include="cm_mode.h">
+      <Filter>command</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\ctrl_StatusBar.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\ctrl_TabBand.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="peer\ctrl_TitleBar.h">
+      <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_layout.h">
+      <Filter>init</Filter>
+    </ClInclude>
+    <ClInclude Include="ed_objects.h">
+      <Filter>init</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\lexer_cxx.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\lexer_defs.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\lexer_generic.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\tinycl\vcsupport.h" />
+    <ClInclude Include="..\tinycl\z_debug.h" />
+    <ClInclude Include="..\tinycl\z_defs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cm_commands.inc">
+      <Filter>init</Filter>
+    </None>
+    <None Include="ed_layout.inc">
+      <Filter>init</Filter>
+    </None>
+    <None Include="ed_objects.inc">
+      <Filter>init</Filter>
+    </None>
+    <None Include="ed_vkeys.inc">
+      <Filter>init</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="editor.def.in" />
+  </ItemGroup>
+</Project>

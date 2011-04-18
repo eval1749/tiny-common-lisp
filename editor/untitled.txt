@@ -1,0 +1,18 @@
+(:dialog
+  :title "Find and Replace"
+  (:table
+    (:tr
+      (:td
+        (:table
+          (:tr 
+            (:td (:label :access-key "N" "Find what:"))
+            (:td (:text)) )
+          (:tr
+            (:td (:label :access-key "P" "Replace with:"))
+            (:td (:text)) ))
+        ... )
+      (:td
+        (:button access-key "F" "_Find Next") (:br)
+        (:button access-key "R" "Find P_revious") (:br)
+        (:button access-key "E" "Replac_e") (:br)
+        (:button access-key "A" "Replace _All") ))) )

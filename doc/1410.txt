@@ -1,0 +1,115 @@
+; #<NATIVE-CODE-FUNCTION NCONC/2 @ F220055>
+;  code size       = 93 (#x5D)
+;  frame           = #x10 (size=4 type=0)
+;  annotation size = 32
+;
+;  0000 83 F9 08           CMP  ECX, 8
+;  0003 75 55              JNE  L005A
+;  0005 8D 58 FE           LEA  EBX, [EAX-2]
+;  0008 F6 C3 03           TEST  BL, 3
+;  000B 75 2D              JNE  L003A
+;  000D 81 F8 42 00 09 0F  CMP  EAX, 'NIL
+;  0013 74 21              JE  L0036
+;  0015 8B D8              MOV  EBX, EAX
+; L0017 8D 73 FE           LEA  ESI, [EBX-2]
+;  001A F7 C6 03 00 00 00  TEST  ESI, 3
+;  0020 75 1A              JNE  L003C
+;  0022 8B 73 F6           MOV  ESI, [EBX-10]
+;  0025 81 FE 42 00 09 0F  CMP  ESI, 'NIL
+;  002B 74 04              JE  L0031
+;  002D 8B DE              MOV  EBX, ESI
+;  002F EB E6              JMP  L0017
+; L0031 89 53 F6           MOV  [EBX-10], EDX
+;  0034 F8                 CLC
+;  0035 C3                 RET
+; L0036 8B C2              MOV  EAX, EDX
+;  0038 F8                 CLC
+;  0039 C3                 RET
+; L003A 8B D8              MOV  EBX, EAX
+; L003C BF C1 67 09 0F     MOV  EDI, 'LIST
+;  0041 BE 69 B0 09 0F     MOV  ESI, ':EXPECTED-TYPE
+;  0046 BA 31 AF 09 0F     MOV  EDX, ':DATUM
+;  004B B8 69 62 09 0F     MOV  EAX, 'TYPE-ERROR
+;  0050 B9 14 00 00 00     MOV  ECX, '5
+;  0055 E8 26 71 EC FF     CALL  #<NATIVE-CODE-FUNCTION ERROR @ F0E71D5>
+; L005A FF 55 F8           CALL  [EBP-8]
+
+; #<NATIVE-CODE-FUNCTION APPEND/2 @ F220135>
+;  code size       = 184 (#xB8)
+;  frame           = #x60 (size=24 type=0)
+;  annotation size = 48
+;
+
+BB6
+;  0000 83 F9 08           CMP  ECX, 8
+;  0003 0F 85 AC 00 00 00  JNE  L00B5
+;  0009 83 EC 14           SUB  ESP, 20
+;  000C 89 54 24 04        MOV  [ESP+4], EDX
+;  0010 89 04 24           MOV  [ESP], EAX
+;  0013 8D 58 FE           LEA  EBX, [EAX-2]
+;  0016 F6 C3 03           TEST  BL, 3
+;  0019 0F 85 92 00 00 00  JNE  L00B1
+
+BB24
+;  001F 81 F8 42 00 09 0F  CMP  EAX, 'NIL
+;  0025 74 64              JE  L008B
+
+BB11
+;  0027 8B 40 F2           MOV  EAX, [EAX-14]
+;  002A B9 04 00 00 00     MOV  ECX, '1
+;  002F E8 1C 7C EC FF     CALL  #<NATIVE-CODE-FUNCTION LIST @ F0E7D85>
+;  0034 89 44 24 0C        MOV  [ESP+12], EAX
+;  0038 8B 14 24           MOV  EDX, [ESP]
+;  003B 8B 52 F6           MOV  EDX, [EDX-10]
+;  003E 8B D8              MOV  EBX, EAX
+
+BB16
+; L0040 89 5C 24 10        MOV  [ESP+16], EBX
+;  0044 89 54 24 08        MOV  [ESP+8], EDX
+;  0048 8D 72 FE           LEA  ESI, [EDX-2]
+;  004B F7 C6 03 00 00 00  TEST  ESI, 3
+;  0051 75 3E              JNE  L0091
+
+BB22
+;  0053 81 FA 42 00 09 0F  CMP  EDX, 'NIL
+;  0059 74 21              JE  L007C
+
+BB19
+;  005B 8B 52 F2           MOV  EDX, [EDX-14]
+;  005E 8B C2              MOV  EAX, EDX
+;  0060 B9 04 00 00 00     MOV  ECX, '1
+;  0065 E8 E6 7B EC FF     CALL  #<NATIVE-CODE-FUNCTION LIST @ F0E7D85>
+;  006A 8B 5C 24 10        MOV  EBX, [ESP+16]
+;  006E 89 43 F6           MOV  [EBX-10], EAX
+;  0071 8B 54 24 08        MOV  EDX, [ESP+8]
+;  0075 8B 52 F6           MOV  EDX, [EDX-10]
+;  0078 8B D8              MOV  EBX, EAX
+;  007A EB C4              JMP  L0040
+
+BB14
+; L007C 8B 54 24 04        MOV  EDX, [ESP+4]
+;  0080 89 53 F6           MOV  [EBX-10], EDX
+;  0083 8B 44 24 0C        MOV  EAX, [ESP+12]
+;  0087 83 C4 14           ADD  ESP, 20
+;  008A C3                 RET
+
+BB10
+; L008B 8B C2              MOV  EAX, EDX
+;  008D 83 C4 14           ADD  ESP, 20
+;  0090 C3                 RET
+
+BB21
+; L0091 8B DA              MOV  EBX, EDX
+
+BB25
+; L0093 BF C1 67 09 0F     MOV  EDI, 'LIST
+;  0098 BE 69 B0 09 0F     MOV  ESI, ':EXPECTED-TYPE
+;  009D BA 31 AF 09 0F     MOV  EDX, ':DATUM
+;  00A2 B8 69 62 09 0F     MOV  EAX, 'TYPE-ERROR
+;  00A7 B9 14 00 00 00     MOV  ECX, '5
+;  00AC E8 EF 6F EC FF     CALL  #<NATIVE-CODE-FUNCTION ERROR @ F0E71D5>
+
+BB23
+; L00B1 8B D8              MOV  EBX, EAX
+;  00B3 EB DE              JMP  L0093
+; L00B5 FF 55 F8           CALL  [EBP-8]

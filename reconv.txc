@@ -1,0 +1,238 @@
+#include <windows.h>
+
+#define NAME_THIS       "IME 再変換拡張"
+#define VERSION_THIS    "0.11"
+#define AUTHOR_THIS     "M.Shibata"
+
+#pragma multidef+
+
+#define WM_IME_REQUEST                  0x0288
+
+// wParam of report message WM_IME_REQUEST
+#define IMR_COMPOSITIONWINDOW           0x0001
+#define IMR_CANDIDATEWINDOW             0x0002
+#define IMR_COMPOSITIONFONT             0x0003
+#define IMR_RECONVERTSTRING             0x0004
+#define IMR_CONFIRMRECONVERTSTRING      0x0005
+#define IMR_QUERYCHARPOSITION           0x0006
+#define IMR_DOCUMENTFEED                0x0007
+
+extern "imm32.dll" {
+HIMC WINAPI ImmGetContext(HWND);
+BOOL WINAPI ImmReleaseContext(HWND, HIMC);
+BOOL WINAPI ImmSetCompositionStringA(HIMC, DWORD dwIndex, LPVOID lpComp, DWORD, LPVOID lpRead, DWORD);
+BOOL WINAPI ImmSetCompositionStringW(HIMC, DWORD dwIndex, LPVOID lpComp, DWORD, LPVOID lpRead, DWORD);
+#ifdef UNICODE
+#define ImmSetCompositionString  ImmSetCompositionStringW
+#else
+#define ImmSetCompositionString  ImmSetCompositionStringA
+#endif // !UNICODE
+}
+
+// dwIndex for ImmSetCompositionString API
+#define SCS_SETSTR                      (GCS_COMPREADSTR|GCS_COMPSTR)
+#define SCS_CHANGEATTR                  (GCS_COMPREADATTR|GCS_COMPATTR)
+#define SCS_CHANGECLAUSE                (GCS_COMPREADCLAUSE|GCS_COMPCLAUSE)
+#define SCS_SETRECONVERTSTRING          0x00010000
+#define SCS_QUERYRECONVERTSTRING        0x00020000
+
+typedef struct tagRECONVERTSTRING {
+    DWORD dwSize;
+    DWORD dwVersion;
+    DWORD dwStrLen;
+    DWORD dwStrOffset;
+    DWORD dwCompStrLen;
+    DWORD dwCompStrOffset;
+    DWORD dwTargetStrLen;
+    DWORD dwTargetStrOffset;
+} RECONVERTSTRING, *PRECONVERTSTRING, NEAR *NPRECONVERTSTRING, FAR *LPRECONVERTSTRING;
+
+#pragma multidef.
+
+
+permanent BOOL p_fSelect = TRUE;
+
+
+int fillReconvertString(TX *text, RECONVERTSTRING *pReconv)
+{
+    // textのカーソル位置に基づいてRECONVERTSTRINGを埋める。
+    // pReconvがNULLなら必要なサイズを返す。
+    // Note: 本当はmcharを直接入れるとShift_JIS範囲外の文字で問題がある。
+    if (txIsClipInPara(text)) {
+        // 単語選択時は選択範囲全体が再変換対象。
+        if (!pReconv) {
+            return sizeof(RECONVERTSTRING) + txGetSelectLen(text) + 1;
+        }
+        int sizeStr = pReconv->dwSize - sizeof(RECONVERTSTRING);
+        mchar *pszStr = (mchar*)pReconv + sizeof(RECONVERTSTRING);
+        txGetWordEx(text, pszStr, sizeStr);
+        
+        pReconv->dwStrLen = strlen(pszStr);
+        pReconv->dwStrOffset = sizeof(RECONVERTSTRING);
+        pReconv->dwCompStrLen = strlen(pszStr);
+        pReconv->dwCompStrOffset = 0;
+        pReconv->dwTargetStrLen = strlen(pszStr);
+        pReconv->dwTargetStrOffset = 0;
+    } else {
+        // 非選択時は段落全体を渡してIMEに決定させる。
+        if (!pReconv) {
+            return sizeof(RECONVERTSTRING) + txGetParaContentLen(text) + 1;
+        }
+        int sizeStr = pReconv->dwSize - sizeof(RECONVERTSTRING);
+        mchar *pszStr = (mchar*)pReconv + sizeof(RECONVERTSTRING);
+        txGetParaEx(text, pszStr, sizeStr);
+        
+        pReconv->dwStrLen = strlen(pszStr);
+        pReconv->dwStrOffset = sizeof(RECONVERTSTRING);
+        pReconv->dwCompStrLen = 0;
+        pReconv->dwCompStrOffset = 0;
+        pReconv->dwTargetStrLen = 0;
+        pReconv->dwTargetStrOffset = txGetAddress(text) - txGetParaTop(text);
+        
+        HWND hwnd = text->hwndtext;
+        HIMC himc = ImmGetContext(hwnd);
+        if (ImmSetCompositionString(himc, SCS_QUERYRECONVERTSTRING, pReconv, pReconv->dwSize, NULL, 0)) {
+            pReconv->dwCompStrLen = pReconv->dwTargetStrLen;
+            pReconv->dwCompStrOffset = pReconv->dwTargetStrOffset;
+        }
+        ImmReleaseContext(hwnd, himc);
+    }
+    return pReconv->dwSize;
+}
+
+
+void treatReconvertTarget(TX *text, RECONVERTSTRING *pReconv, BOOL fSelect)
+{
+    if (txIsClipInPara(text)) {
+        txJumpSelectTop(text);
+    } else {
+        txJumpAddress(text, txGetParaTop(text) + pReconv->dwTargetStrOffset);
+    }
+    if (fSelect) {
+        if (!txIsClipInPara(text)) {
+            // すでに範囲選択されている場合は何もしなくてよいので。
+            txSelectEx(text, CLIP_CHAR);
+            txRightBytes(text, pReconv->dwTargetStrLen);
+            text->fClipMouse = TRUE;
+            txJumpSelectTop(text);
+        }
+    } else {
+        txDeleteBytes(text, pReconv->dwTargetStrLen);
+    }
+}
+
+
+void option(TX *text)
+{
+    HDIALOG hd = dialog("設定 - " NAME_THIS);
+    dialogCheck(hd, "対象文字列を範囲選択する(&S)", &p_fSelect);
+    dialogIndent(hd, 2);
+    dialogCaptionDynamicEx(hd,
+        "チェックを入れると、再変換時に対象文字列が範囲選択された状態でテキストに残ります。"
+        "チェックをはずすと、対象文字列はテキストからいったん削除されます。"
+        "これにより、後続の文字列が再変換中の文字列によって覆い隠される場合があります。",
+        40, 4);
+    dialogIndent(hd, -2);
+    dialogHeadline(hd, "", 42);
+    dialogCaption(hd, "Version " VERSION_THIS);
+    if (dialogOpen(hd)) {
+        __prmSave();
+    }
+}
+
+
+void help(TX *text)
+{
+    TXCOPTION copt;
+    structClear(copt);
+    txcLoadConfig(&copt);
+    
+    mchar szPath[CCHPATHNAME];
+    mchar szPathHelp[CCHPATHNAME];
+    mchar *p, *q;
+    p = copt.szpathMacro;
+    
+    while (p) {
+        if (*p == '\0') break;
+        q = strchr(p, ';');
+        strcpylen(szPath, p, q ? q - p : strlen(p));
+        pathSetDir(szPath);
+        strcat(szPath, "\m.txt");
+        pathSetFileName(szPathHelp, szPath);
+        if (fileIsExist(szPathHelp)) {
+            forkstd(szPathHelp, "/v /i /h /j1");
+            return;
+        }
+        p = q;
+        if (p) p++;
+    }
+    information("ヘルプファイルが見つかりません。");
+}
+
+
+void main(TX *text)
+{
+    int sizeReconv = fillReconvertString(text, NULL);
+    RECONVERTSTRING *pReconv = malloc(sizeReconv);
+    if (pReconv) {
+        pReconv->dwSize = sizeReconv;
+        pReconv->dwVersion = 0;
+        if (fillReconvertString(text, pReconv)) {
+            treatReconvertTarget(text, pReconv, p_fSelect);
+            HWND hwnd = text->hwndtext;
+            HIMC himc = ImmGetContext(hwnd);
+            ImmSetCompositionString(himc, SCS_SETRECONVERTSTRING, pReconv, sizeReconv, NULL, 0);
+            ImmReleaseContext(hwnd, himc);
+        }
+        free(pReconv);
+    }
+}
+
+
+HOOKRESULT CALLBACK HookWndprocText(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg) {
+        case WM_IME_REQUEST:
+        switch (wParam) {
+            case IMR_RECONVERTSTRING: {
+                TX *text = hwndtextGetText(hwnd);
+                RECONVERTSTRING *pReconv = (RECONVERTSTRING*) lParam;
+                int sizeReconv = fillReconvertString(text, pReconv);
+                if (pReconv && sizeReconv) {
+                    treatReconvertTarget(text, pReconv, p_fSelect);
+                }
+                txSetHookWndproctextResult(text, sizeReconv);
+                return HOOK_CAPTURE;
+            }
+            break;
+        }
+        break;
+    }
+    return HOOK_CONTINUE;
+}
+
+
+void __on_txFrameNew(TX *text)
+{
+    txSetHookWndproctextTxpcode(text, HookWndprocText);
+}
+
+
+void __pluginConfig(TX *text)
+{
+    option(text);
+}
+
+
+void __pluginHelp (TX *text)
+{
+    help(text);
+}
+
+
+void __pluginGetProperty(mchar *prop, txstr res)
+{
+    if (!stricmp(prop, "name")) res = NAME_THIS;
+    if (!stricmp(prop, "author")) res = AUTHOR_THIS;
+    if (!stricmp(prop, "version")) res = VERSION_THIS;
+}

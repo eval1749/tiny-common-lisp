@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C20D0F8E-47BF-41E8-8E7D-A2BAFE300057}</ProjectGuid>
+    <RootNamespace>tinycl</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>FastCall</CallingConvention>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)libTinyCl.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <WarningLevel>Level4</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>FastCall</CallingConvention>
+      <EnablePREfast>false</EnablePREfast>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)libTinyCl.lib</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="rtl\tinycl_bignum.cpp" />
+    <ClCompile Include="rtl\tinycl_float.cpp" />
+    <ClCompile Include="rtl\tinycl_ratio.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl2.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_clos.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_filename.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_integer.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_io.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_kernel.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_misc.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_number.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_regex.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_seq.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_stream.cpp" />
+    <ClCompile Include="rtl\tinycl_rtl_type.cpp" />
+    <ClCompile Include="compiler\tinycl_c_init.cpp" />
+    <ClCompile Include="compiler\tinycl_c_main.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_00_main.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_01_emit.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_01_env.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_01_fns.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_03_declare.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_03_eval.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_03_lambda.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_04_type.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_05_bind.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_05_ctrl.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_05_data.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_05_mv.cpp" />
+    <ClCompile Include="compiler\cl\tinycl_c_cl_09_cond.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_dfa.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_dom.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_fns.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_fun.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_fundb.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_graph.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_insn.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_loop.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_operand.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_type.cpp" />
+    <ClCompile Include="compiler\ir\tinycl_c_ir_verify.cpp" />
+    <ClCompile Include="compiler\opt\tinycl_c_opt_arity.cpp" />
+    <ClCompile Include="compiler\opt\tinycl_c_opt_cfg2ssa.cpp" />
+    <ClCompile Include="compiler\opt\tinycl_c_opt_clean.cpp" />
+    <ClCompile Include="compiler\opt\tinycl_c_opt_closure.cpp" />
+    <ClCompile Include="compiler\opt\tinycl_c_opt_inline.cpp" />
+    <ClCompile Include="compiler\opt\tinycl_c_opt_propty.cpp" />
+    <ClCompile Include="compiler\opt\tinycl_c_opt_tail_call.cpp" />
+    <ClCompile Include="compiler\opt\tinycl_c_opt_typep.cpp" />
+    <ClCompile Include="compiler\cg\tinycl_c_cg.cpp" />
+    <ClCompile Include="compiler\cg\tinycl_c_cg_cast.cpp" />
+    <ClCompile Include="compiler\cg\tinycl_c_cg_layout.cpp" />
+    <ClCompile Include="compiler\cg\tinycl_c_cg_ra.cpp" />
+    <ClCompile Include="compiler\cg\tinycl_c_cg_split.cpp" />
+    <ClCompile Include="compiler\cg\tinycl_c_cg_stack.cpp" />
+    <ClCompile Include="compiler\cg\tinycl_c_cg_upvar.cpp" />
+    <ClCompile Include="win\tinycl_win_debug.cpp" />
+    <ClCompile Include="win\tinycl_win_init.cpp" />
+    <ClCompile Include="win\tinycl_win_mm.cpp" />
+    <ClCompile Include="win\tinycl_win_rtl.cpp" />
+    <ClCompile Include="win\tinycl_win_rtl_stream.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_asm.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_c_asm.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_c_ensure.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_c_gcmap.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_c_lower.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_c_main.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_c_typep.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_c_values.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_disasm.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_gc.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_init.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_rtl.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_rtl_float.cpp" />
+    <ClCompile Include="arch\x86\tinycl_x86_win.cpp" />
+    <ClCompile Include="arch\generic\tinycl_gen_fns.cpp" />
+    <ClCompile Include="init\tinycl_init.cpp" />
+    <ClCompile Include="init\tinycl_init_method.cpp" />
+    <ClCompile Include="tinycl_clos.cpp" />
+    <ClCompile Include="tinycl_dll_link.cpp" />
+    <ClCompile Include="tinycl_gc.cpp" />
+    <ClCompile Include="tinycl_kernel.cpp" />
+    <ClCompile Include="tinycl_sxhash.cpp" />
+    <ClCompile Include="tinycl_macro.cpp" />
+    <ClCompile Include="tinycl_toplevel.cpp" />
+    <ClCompile Include="precomp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="vcsupport.cpp" />
+    <ClCompile Include="z_util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="rtl\tinycl_bignum.h" />
+    <ClInclude Include="rtl\tinycl_complex.h" />
+    <ClInclude Include="rtl\tinycl_float.h" />
+    <ClInclude Include="rtl\tinycl_ratio.h" />
+    <ClInclude Include="rtl\tinycl_rtl.h" />
+    <ClInclude Include="rtl\tinycl_rtl2.h" />
+    <ClInclude Include="tinycl.h" />
+    <ClInclude Include="tinycl_kernel.h" />
+    <ClInclude Include="tinycl_layout.h" />
+    <ClInclude Include="rtl\tinycl_regex.h" />
+    <ClInclude Include="tinycl_util.h" />
+    <ClInclude Include="z_debug.h" />
+    <ClInclude Include="z_defs.h" />
+    <ClInclude Include="compiler\tinycl_c_defs.h" />
+    <ClInclude Include="compiler\cl\tinycl_c_cl_defs.h" />
+    <ClInclude Include="compiler\ir\tinycl_c_ir_insn.h" />
+    <ClInclude Include="compiler\ir\tinycl_c_ir_loop.h" />
+    <ClInclude Include="compiler\cg\tinycl_c_cg.h" />
+    <ClInclude Include="compiler\cg\tinycl_c_cg_asm.h" />
+    <ClInclude Include="arch\x86\tinycl_x86.h" />
+    <ClInclude Include="arch\x86\tinycl_x86_asm.h" />
+    <ClInclude Include="arch\x86\tinycl_x86_c_cg.h" />
+    <ClInclude Include="arch\generic\tinycl_gen.h" />
+    <ClInclude Include="init\tinycl_defstatic.h" />
+    <ClInclude Include="init\tinycl_finalize_class.h" />
+    <ClInclude Include="init\tinycl_init.h" />
+    <ClInclude Include="init\tinycl_init_entry.h" />
+    <ClInclude Include="init\tinycl_install_arity.h" />
+    <ClInclude Include="init\tinycl_install_class.h" />
+    <ClInclude Include="init\tinycl_install_classd.h" />
+    <ClInclude Include="init\tinycl_install_object.h" />
+    <ClInclude Include="tinycl_clos.h" />
+    <ClInclude Include="tinycl_dll_link.h" />
+    <ClInclude Include="tinycl_gc.h" />
+    <ClInclude Include="tinycl_memory.h" />
+    <ClInclude Include="tinycl_sxhash.h" />
+    <ClInclude Include="precomp.h" />
+    <ClInclude Include="vcsupport.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

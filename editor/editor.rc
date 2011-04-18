@@ -1,0 +1,19 @@
+// -*- Mode: C++; -*-
+// Editor - TextWindow Peer
+// editor/peer/peer_text_window.cpp
+//
+// Copyright (C) 1996-2007 by Project Vogue.
+// Written by Yoshifumi "VOGUE" INOUE. (yosi@msn.com)
+//
+// @(#)$Id: //proj/evedit2/mainline/editor/editor.rc#1 $
+//
+#include "winres.h"
+#include "./resource.h"
+
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+IDC_HSPLIT  CURSOR "res/hsplit.cur"
+IDC_VSPLIT  CURSOR "res/vsplit.cur"

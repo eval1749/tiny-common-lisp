@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<style type="text/css">
+body { font-family: Verdana; font-size: 10pt;}
+p:first-letter { font-size: 200%; float: left; }
+</style>
+</head>
+<body>
+<button><b>B</b>oo</button>
+<input type="submit" value="Foo"/>
+
+<P style="border: 1px solid">Foo<SPAN style="float: right">Bar</SPAN>baz</P>
+
+<div style="width: 300px">
+<p>
+The IMG box is floated to the left. The content that follows is formatted to the right of the float, starting on the same line as the float. The line boxes to the right of the float are shortened due to the float's presence, but resume their "normal" width (that of the containing block established by the P element) after the float. This document might be formatted as:
+<table border="1" align="left" height="300">
+<tr>
+<td>
+This is a table align="left"
+</td>
+</tr>
+</table>
+The contents of floats are stacked as if floats generated new stacking contexts, except that any elements that actually create new stacking contexts take part in the float's parent's stacking context. A float can overlap other boxes in the normal flow (e.g., when a normal flow box next to a float has negative margins). When this happens, floats are rendered in front of non-positioned in-flow blocks, but behind in-flow inlines. 
+</p>
+
+<p>
+The IMG box is floated to the left. The content that follows is formatted to the right of the float, starting on the same line as the float. The line boxes to the right of the float are shortened due to the float's presence, but resume their "normal" width (that of the containing block established by the P element) after the float. This document might be formatted as: <B>END</B>
+</p>
+<table border="1" align="right" height="200">
+<tr>
+<td>
+This is a table align="right"
+</td>
+</tr>
+</table>
+<p>
+The contents of floats are stacked as if floats generated new stacking contexts, except that any elements that actually create new stacking contexts take part in the float's parent's stacking context. A float can overlap other boxes in the normal flow (e.g., when a normal flow box next to a float has negative margins). When this happens, floats are rendered in front of non-positioned in-flow blocks, but behind in-flow inlines. 
+</p>
+
+
+<table border="1" height="500"  align="right" xstyle="float:left">
+<tr>
+<td>
+This is a table align=right
+</td>
+</tr>
+</table>
+<p>
+The IMG box is floated to the left. The content that follows is formatted to the right of the float, starting on the same line as the float. The line boxes to the right of the float are shortened due to the float's presence, but resume their "normal" width (that of the containing block established by the P element) after the float. This document might be formatted as: <b>END</b>
+</p>
+<p>
+The contents of floats are stacked as if floats generated new stacking contexts, except that any elements that actually create new stacking contexts take part in the float's parent's stacking context. A float can overlap other boxes in the normal flow (e.g., when a normal flow box next to a float has negative margins). When this happens, floats are rendered in front of non-positioned in-flow blocks, but behind in-flow inlines. 
+</p>
+</div>
+</body>
+</html>
