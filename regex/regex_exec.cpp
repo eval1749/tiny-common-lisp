@@ -33,13 +33,17 @@ void StdOutPrintf(const char* pszFormat, ...) {
   ::wvsprintfA(szBuf, pszFormat, args);
   va_end(args);
 
-  DWORD cbWritten;
-  ::WriteFile(
-    ::GetStdHandle(STD_OUTPUT_HANDLE),
-    szBuf,
-    ::lstrlenA(szBuf),
-    &cbWritten,
-    0);
+  if (::IsDebuggerPresent()) {
+    ::OutputDebugStringA(szBuf);
+  } else {
+    DWORD cbWritten;
+    ::WriteFile(
+      ::GetStdHandle(STD_OUTPUT_HANDLE),
+      szBuf,
+      ::lstrlenA(szBuf),
+      &cbWritten,
+      0);
+  }
 }
 
 /// <remark>
@@ -75,13 +79,81 @@ struct Capture {
   }
 };
 
+class PosnStack {
+  private: int count_;
+  private: Posn* elements_;
+  private: int capacity_;
+
+  public: PosnStack(int const capacity)
+    : capacity_(capacity),
+      count_(0),
+      elements_(new Posn[capacity]) {}
+
+  public: ~PosnStack() { delete elements_; }
+
+  public: Posn& operator [](int const index) {
+    ASSERT(index >= 0);
+    ASSERT(index < capacity_);
+    return elements_[index];
+  }
+
+  public: Posn operator [](int const index) const {
+    ASSERT(index >= 0);
+    ASSERT(index < capacity_);
+    return elements_[index];
+  }
+
+  public: int count() const { return count_; }
+
+  public: Posn& top(int const nth) {
+    ASSERT(nth >= 0);
+    ASSERT(count_ - nth - 1 >= 0);
+    return elements_[count_ - nth - 1];
+  }
+
+  public: Posn top(int const nth) const {
+    ASSERT(nth >= 0);
+    ASSERT(count_ - nth - 1 >= 0);
+    return elements_[count_ - nth - 1];
+  }
+
+  public: void set_count(int count) {
+    ASSERT(count >= 0);
+    ASSERT(count <= capacity_);
+    count_ = count;
+  }
+
+  public: void EnsureCapacity(int const size) {
+    if (count_ + size < capacity_) {
+      return;
+    }
+    auto const old_elements = elements_;
+    capacity_ = (capacity_ * 3)  /2;
+    elements_ = new Posn[capacity_];
+    ::CopyMemory(elements_, old_elements, sizeof(Posn) * count_);
+    delete [] old_elements;
+  }
+
+  public: Posn Pop() {
+    ASSERT(count_ > 0);
+    --count_;
+    return elements_[count_];
+  }
+
+  public: void Push(Posn const datum) {
+    ASSERT(count_ + 1 <= capacity_);
+    elements_[count_] = datum;
+    ++count_;
+  }
+};
+
 /// <remark>
 /// Represents regex byte code interpreter.
 /// </remark>
 class Engine : public Regex::SourceInfo {
   enum Limits {
-    CStackSize = 100,
-    VStackSize = 100,
+    CPosnStackSize = 100,
+    VPosnStackSize = 100,
   };
 
   protected: bool m_fBackward;
@@ -94,16 +166,14 @@ class Engine : public Regex::SourceInfo {
   protected: Count m_lMinLen;
   protected: Posn m_lPosn;
   protected: Posn m_lScanStop;
-  protected: int m_nCsp;
-  protected: int m_nCStackSize;
   protected: int m_nCxp;
   protected: int m_nPc;
   protected: int m_nVsp;
   protected: int m_nVStackSize;
   protected: IMatchContext* m_pIContext;
   protected: const int* m_prgnCode;
-  protected: Posn* m_prgnCStack;
-  protected: Posn* m_prgnVStack;
+  protected: PosnStack control_stack_;
+  protected: Posn* m_prgnVPosnStack;
   protected: const Scanner* m_pScanner;
 
   // ctor
@@ -115,28 +185,26 @@ class Engine : public Regex::SourceInfo {
     bool fBackward,
     Posn lMatchEnd)
     : m_fBackward(fBackward),
-      m_nCsp(CStackSize),
       m_nCxp(0),
       m_nPc(0),
-      m_nVsp(VStackSize),
-      m_nCStackSize(CStackSize),
-      m_nVStackSize(VStackSize),
+      m_nVsp(0),
+      m_nVStackSize(VPosnStackSize),
       m_lMatchEnd(lMatchEnd),
       m_lMinLen(lMinLen),
       m_lPosn(lMatchEnd),
       m_pIContext(pIContext),
       m_prgnCode(prgnCode),
-      m_prgnCStack(new Posn[CStackSize]),
-      m_prgnVStack(new Posn[VStackSize]),
+      control_stack_(CPosnStackSize),
+      m_prgnVPosnStack(new Posn[VPosnStackSize]),
       m_pScanner(pScanner) {
     m_pIContext->GetInfo(this);
   }
 
-  protected: Engine() {}
+  protected: Engine() 
+    : control_stack_(CPosnStackSize) {}
 
   public: ~Engine() {
-    delete[] m_prgnCStack;
-    delete[] m_prgnVStack;
+    delete[] m_prgnVPosnStack;
   }
 
   // [C]
@@ -157,40 +225,41 @@ class Engine : public Regex::SourceInfo {
   }
 
   private: Posn cpop() {
-    ASSERT(m_nCsp < m_nCStackSize);
-    return m_prgnCStack[m_nCsp++];
+    return control_stack_.Pop();
   }
 
   private: void cpush(Control eCode) {
-    ASSERT(m_nCsp - 1 >= 0);
-    m_prgnCStack[--m_nCsp] = eCode;
+    control_stack_.EnsureCapacity(1);
+    control_stack_.Push(eCode);
   }
 
   private: void cpush(Control eCode, Posn a) {
-    ASSERT(m_nCsp - 2 >= 0);
-    m_prgnCStack[--m_nCsp] = a;
-    m_prgnCStack[--m_nCsp] = eCode;
+    control_stack_.EnsureCapacity(2);
+    control_stack_.Push(a);
+    control_stack_.Push(eCode);
   }
 
   private: void cpush(Control eCode, Posn a, Posn b) {
-    ASSERT(m_nCsp - 3 >= 0);
-    m_prgnCStack[--m_nCsp] = b;
-    m_prgnCStack[--m_nCsp] = a;
-    m_prgnCStack[--m_nCsp] = eCode;
+    control_stack_.EnsureCapacity(3);
+    control_stack_.Push(b);
+    control_stack_.Push(a);
+    control_stack_.Push(eCode);
   }
 
   private: void cpush(Control eCode, Posn a, Posn b, Posn c) {
-    ASSERT(m_nCsp - 4 >= 0);
-    m_prgnCStack[--m_nCsp] = c;
-    m_prgnCStack[--m_nCsp] = b;
-    m_prgnCStack[--m_nCsp] = a;
-    m_prgnCStack[--m_nCsp] = eCode;
+    control_stack_.EnsureCapacity(4);
+    control_stack_.Push(c);
+    control_stack_.Push(b);
+    control_stack_.Push(a);
+    control_stack_.Push(eCode);
   }
 
   // [D]
   private: bool dispatch();
 
   // [E]
+  private: void EnsureValuePosnStack(int);
+
   private: bool equalCi(
       Posn lStart1,
       Posn lEnd1,
@@ -493,13 +562,13 @@ class Engine : public Regex::SourceInfo {
 
   // [V]
   private: Posn vpop() {
-    ASSERT(m_nVsp < m_nVStackSize);
-    return m_prgnVStack[m_nVsp++];
+    ASSERT(m_nVsp > 0);
+    return m_prgnVPosnStack[--m_nVsp];
   }
 
   private: void vpush(Posn iVal) {
-    ASSERT(m_nVsp > 0);
-    m_prgnVStack[--m_nVsp] = iVal;
+    EnsureValuePosnStack(1);
+    m_prgnVPosnStack[m_nVsp++] = iVal;
   }
 
   #if DEBUG_EXEC
@@ -728,26 +797,27 @@ void RegexObj::Describe() const {
 
 #if DEBUG_EXEC
 void Engine::printControl() const {
-  const OpDesc* p = &k_rgoOpDesc[m_prgnCStack[m_nCsp] + Op_Limit];
+  auto const opcode = control_stack_.top(0);
+  auto const p = &k_rgoOpDesc[opcode + Op_Limit];
 
   StdOutPrintf("%s", p->m_pszMnemonic);
 
   switch (p->m_eFormat) {
     case OpFormat_nth_start_end:
       StdOutPrintf(" nth=%d start=%d %d",
-        m_prgnCStack[m_nCsp+1],
-        m_prgnCStack[m_nCsp+2],
-        m_prgnCStack[m_nCsp+3]);
+        control_stack_.top(1),
+        control_stack_.top(2),
+        control_stack_.top(3));
       break;
 
     case OpFormat_nextPc_posn:
       StdOutPrintf(" nextPc=%d posn=%d",
-        m_prgnCStack[m_nCsp+1],
-        m_prgnCStack[m_nCsp+2]);
+        control_stack_.top(1),
+        control_stack_.top(2));
       break;
 
     case OpFormat_int:
-      StdOutPrintf(" int=%d", m_prgnCStack[m_nCsp+1]);
+      StdOutPrintf(" int=%d", control_stack_.top(1));
       break;
 
     case OpFormat_none:
@@ -755,31 +825,31 @@ void Engine::printControl() const {
       break;
 
     case OpFormat_nth:
-      StdOutPrintf(" nth=%d", m_prgnCStack[m_nCsp+1]);
+      StdOutPrintf(" nth=%d", control_stack_.top(1));
       break;
 
     case OpFormat_posn:
-      StdOutPrintf(" posn=%d", m_prgnCStack[m_nCsp+1]);
+      StdOutPrintf(" posn=%d", control_stack_.top(1));
       break;
 
     case OpFormat_nextPc_posn_minPosn:
       StdOutPrintf(" nextPc=%d posn=%d minPosn=%d",
-        m_prgnCStack[m_nCsp+1],
-        m_prgnCStack[m_nCsp+2],
-        m_prgnCStack[m_nCsp+3]);
+        control_stack_.top(1),
+        control_stack_.top(2),
+        control_stack_.top(3));
       break;
 
     case OpFormat_nextPc_posn_maxPosn:
       StdOutPrintf(" nextPc=%d posn=%d maxPosn=%d",
-        m_prgnCStack[m_nCsp+1],
-        m_prgnCStack[m_nCsp+2],
-        m_prgnCStack[m_nCsp+3]);
+        control_stack_.top(1),
+        control_stack_.top(2),
+        control_stack_.top(3));
       break;
 
     case OpFormat_cxp_vsp:
       StdOutPrintf(" cxp=%d vsp=%d",
-        m_prgnCStack[m_nCsp+1],
-        m_prgnCStack[m_nCsp+2]);
+        control_stack_.top(1),
+        control_stack_.top(2));
       break;
 
     default:
@@ -817,7 +887,7 @@ bool Engine::dispatch() {
       StdOutPrintf("> ");
 
       StdOutPrintf("csp=%03d vsp=%03d pos=%03d|%c| ",
-          m_nCsp,
+          control_stack_.count(),
           m_nVsp,
           m_lPosn,
           debugGetChar(m_lPosn));
@@ -1435,12 +1505,15 @@ bool Engine::dispatch() {
         return false;
       }
 
-      case Op_RestoreCxp:
-        m_nVsp = m_prgnCStack[m_nCxp + 2];
-        m_nCsp = m_nCxp + 3;
-        m_nCxp = m_prgnCStack[m_nCxp + 1];
+      case Op_RestoreCxp: {
+        auto const index = m_nCxp;
+        ASSERT(control_stack_[index - 1] == Control_SaveCxp);
+        m_nCxp = control_stack_[index - 2];
+        m_nVsp = control_stack_[index - 3];
+        control_stack_.set_count(index - 4);
         m_nPc += 1;
         break;
+      }
 
       case Op_RestorePosn:
         m_lPosn = vpop();
@@ -1451,7 +1524,7 @@ bool Engine::dispatch() {
       // [S]
       case Op_SaveCxp:
         cpush(Control_SaveCxp, m_nCxp, m_nVsp);
-        m_nCxp = m_nCsp;
+        m_nCxp = control_stack_.count();
         m_nPc += 1;
         break;
 
@@ -1527,6 +1600,18 @@ bool Engine::dispatch() {
         return false;
     }
   }
+}
+
+void Engine::EnsureValuePosnStack(int const n) {
+  if (m_nVsp + n <= m_nVStackSize) {
+    return;
+  }
+
+  auto const old_stack = m_prgnVPosnStack;
+  auto const old_size = m_nVStackSize;
+  m_nVStackSize = (m_nVStackSize * 3) / 2;
+  m_prgnVPosnStack = new Posn[m_nVStackSize];
+  ::CopyMemory(m_prgnVPosnStack, old_stack, sizeof(*m_prgnVPosnStack) * old_size);
 }
 
 class CiCompare {
@@ -1968,9 +2053,10 @@ bool Engine::Execute() {
 /// True is executes SUCCESS instruction, false otherwise.
 /// </returns>
 bool Engine::execute(Posn const lStart, Posn const lMatchStart) {
-  m_nVsp = m_nVStackSize;
-  m_nCsp = m_nCStackSize - 2;
-  m_nCxp = m_nCsp;
+  m_nVsp = 0;
+  // Control stack has two Control_Fail pushed by Execute.
+  m_nCxp = 2;
+  control_stack_.set_count(m_nCxp);
   m_nPc = 0;
   m_lPosn = lStart;
 
@@ -2009,7 +2095,7 @@ bool Engine::execute1()
 
   for (;;) {
     #if DEBUG_EXEC
-      StdOutPrintf("\tCStack[%03d] ", m_nCsp);
+      StdOutPrintf("\tCPosnStack[%03d] ", control_stack_.count());
       printControl();
       StdOutPrintf("\n");
     #endif // DEBUG_EXEC
@@ -2063,10 +2149,10 @@ bool Engine::execute1()
         }
 
         // Loop again
-        m_nCsp -= 4;
+        control_stack_.set_count(control_stack_.count() + 4);
         m_nPc = nNextPc;
         m_lPosn = lPosn;
-        m_prgnCStack[m_nCsp + 2] = m_lPosn;
+        control_stack_.top(2) = m_lPosn;
         goto tryAgain;
       }
 
@@ -2079,10 +2165,10 @@ bool Engine::execute1()
         }
 
         // Loop again
-        m_nCsp -= 4;
+        control_stack_.set_count(control_stack_.count() + 4);
         m_nPc = nNextPc;
         m_lPosn = lPosn;
-        m_prgnCStack[m_nCsp + 2] = m_lPosn;
+        control_stack_.top(2) = m_lPosn;
         goto tryAgain;
       }
 

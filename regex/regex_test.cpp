@@ -648,6 +648,15 @@ class Result {
     strings_[2] = p3;
   }
 
+  public: Result(const String& p1, const String& p2, const String& p3,
+                 const String& p4)
+      : strings_(4) {
+    strings_[0] = p1;
+    strings_[1] = p2;
+    strings_[2] = p3;
+    strings_[3] = p4;
+  }
+
   public: Result(const MatchContext& match)
       : strings_(match.captures().size()) {
     auto index = 0;
@@ -886,6 +895,13 @@ TEST_F(RegexTest, BackwardSearch) {
   EXPECT_EQ(Result("foobaz"), Execute("foo\\S+", "foobar foobaz", Regex::Option_Backward)); // smoke/1002
   EXPECT_EQ(Result("foobaz", "baz"), Execute("foo(\\S+)", "foobar foobaz", Regex::Option_Backward)); // smoke/1003
   EXPECT_EQ(Result("<small><b>foo</b></small>"), Execute("<small.*?>", "<small><b>foo</b></small>", Regex::Option_Backward)); // smoke/1004
+}
+
+TEST_F(RegexTest, Capture) {
+  // This parrent uses 177 element of control stack.
+  EXPECT_EQ(
+    Result("foo(1, 2, 123.4567890123456789012345)", "1", "2", "123.4567890123456789012345"),
+    Execute("foo\\((\\d+), (\\d+), ([\\d.]+)\\)", "foo(1, 2, 123.4567890123456789012345)"));
 }
 
 } // RegexTest
