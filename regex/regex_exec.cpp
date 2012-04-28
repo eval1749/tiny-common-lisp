@@ -152,8 +152,8 @@ class PosnStack {
 /// </remark>
 class Engine : public Regex::SourceInfo {
   enum Limits {
-    CPosnStackSize = 100,
-    VPosnStackSize = 100,
+    ControlStackSize = 100,
+    ValueStackSize = 30,
   };
 
   protected: bool m_fBackward;
@@ -168,12 +168,10 @@ class Engine : public Regex::SourceInfo {
   protected: Posn m_lScanStop;
   protected: int m_nCxp;
   protected: int m_nPc;
-  protected: int m_nVsp;
-  protected: int m_nVStackSize;
   protected: IMatchContext* m_pIContext;
   protected: const int* m_prgnCode;
   protected: PosnStack control_stack_;
-  protected: Posn* m_prgnVPosnStack;
+  protected: PosnStack value_stack_;
   protected: const Scanner* m_pScanner;
 
   // ctor
@@ -187,25 +185,22 @@ class Engine : public Regex::SourceInfo {
     : m_fBackward(fBackward),
       m_nCxp(0),
       m_nPc(0),
-      m_nVsp(0),
-      m_nVStackSize(VPosnStackSize),
       m_lMatchEnd(lMatchEnd),
       m_lMinLen(lMinLen),
       m_lPosn(lMatchEnd),
       m_pIContext(pIContext),
       m_prgnCode(prgnCode),
-      control_stack_(CPosnStackSize),
-      m_prgnVPosnStack(new Posn[VPosnStackSize]),
+      control_stack_(ControlStackSize),
+      value_stack_(ValueStackSize),
       m_pScanner(pScanner) {
     m_pIContext->GetInfo(this);
   }
 
   protected: Engine() 
-    : control_stack_(CPosnStackSize) {}
+    : control_stack_(ControlStackSize),
+      value_stack_(ValueStackSize) {}
 
-  public: ~Engine() {
-    delete[] m_prgnVPosnStack;
-  }
+  public: ~Engine() {}
 
   // [C]
   private: bool charEqCi(char16 a, char16 b) const {
@@ -258,8 +253,6 @@ class Engine : public Regex::SourceInfo {
   private: bool dispatch();
 
   // [E]
-  private: void EnsureValuePosnStack(int);
-
   private: bool equalCi(
       Posn lStart1,
       Posn lEnd1,
@@ -562,13 +555,12 @@ class Engine : public Regex::SourceInfo {
 
   // [V]
   private: Posn vpop() {
-    ASSERT(m_nVsp > 0);
-    return m_prgnVPosnStack[--m_nVsp];
+    return value_stack_.Pop();
   }
 
-  private: void vpush(Posn iVal) {
-    EnsureValuePosnStack(1);
-    m_prgnVPosnStack[m_nVsp++] = iVal;
+  private: void vpush(Posn const value) {
+    value_stack_.EnsureCapacity(1);
+    value_stack_.Push(value);
   }
 
   #if DEBUG_EXEC
@@ -888,7 +880,7 @@ bool Engine::dispatch() {
 
       StdOutPrintf("csp=%03d vsp=%03d pos=%03d|%c| ",
           control_stack_.count(),
-          m_nVsp,
+          value_stack_.count(),
           m_lPosn,
           debugGetChar(m_lPosn));
       printOp(m_prgnCode, m_nPc);
@@ -1509,7 +1501,7 @@ bool Engine::dispatch() {
         auto const index = m_nCxp;
         ASSERT(control_stack_[index - 1] == Control_SaveCxp);
         m_nCxp = control_stack_[index - 2];
-        m_nVsp = control_stack_[index - 3];
+        value_stack_.set_count(control_stack_[index - 3]);
         control_stack_.set_count(index - 4);
         m_nPc += 1;
         break;
@@ -1523,7 +1515,7 @@ bool Engine::dispatch() {
 
       // [S]
       case Op_SaveCxp:
-        cpush(Control_SaveCxp, m_nCxp, m_nVsp);
+        cpush(Control_SaveCxp, m_nCxp, value_stack_.count());
         m_nCxp = control_stack_.count();
         m_nPc += 1;
         break;
@@ -1600,18 +1592,6 @@ bool Engine::dispatch() {
         return false;
     }
   }
-}
-
-void Engine::EnsureValuePosnStack(int const n) {
-  if (m_nVsp + n <= m_nVStackSize) {
-    return;
-  }
-
-  auto const old_stack = m_prgnVPosnStack;
-  auto const old_size = m_nVStackSize;
-  m_nVStackSize = (m_nVStackSize * 3) / 2;
-  m_prgnVPosnStack = new Posn[m_nVStackSize];
-  ::CopyMemory(m_prgnVPosnStack, old_stack, sizeof(*m_prgnVPosnStack) * old_size);
 }
 
 class CiCompare {
@@ -2053,7 +2033,7 @@ bool Engine::Execute() {
 /// True is executes SUCCESS instruction, false otherwise.
 /// </returns>
 bool Engine::execute(Posn const lStart, Posn const lMatchStart) {
-  m_nVsp = 0;
+  value_stack_.set_count(0);
   // Control stack has two Control_Fail pushed by Execute.
   m_nCxp = 2;
   control_stack_.set_count(m_nCxp);
@@ -2180,7 +2160,7 @@ bool Engine::execute1()
 
       case Control_SaveCxp: // cxp vsp
         m_nCxp = cpop();
-        m_nVsp = cpop();
+        value_stack_.set_count(cpop());
         break;
 
       case Control_SavePosn: // posn
