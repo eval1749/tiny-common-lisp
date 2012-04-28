@@ -2060,10 +2060,9 @@ bool Engine::execute(Posn const lStart, Posn const lMatchStart) {
 /// Executes regex byte code.
 /// </summary>
 /// <returns>
-/// True is executes SUCCESS instruction, false otherwise.
+/// True if executes SUCCESS instruction, false otherwise.
 /// </returns>
-bool Engine::execute1()
-{
+bool Engine::execute1() {
   tryAgain:
   RE_DEBUG_PRINTF("\n===== Execute ====================\n");
 
