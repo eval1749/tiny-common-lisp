@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="regex_test.cpp" />
+    <ClCompile Include="precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinycl\z_debug.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinycl\vcsupport.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="support">
+      <UniqueIdentifier>{ab4f4a9d-6cb4-49cd-9af7-2378b28ee8dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinycl\vcsupport.h">
+      <Filter>support</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
