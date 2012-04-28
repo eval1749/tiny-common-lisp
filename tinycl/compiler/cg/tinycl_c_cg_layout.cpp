@@ -255,7 +255,7 @@ class SubPassReorder :
             { return m_oChains.GetLast()->m_pBB; }
 
         // [H]
-        public: override void HtmlPrint(Val stream, bool) const
+        public: virtual void HtmlPrint(Val stream, bool) const override
         {
             cformat(stream, "[Chain ~D ~S...~S]",
                 m_nPriority,
@@ -457,7 +457,7 @@ class PassLayout :
 {
     public: static const char* GetName_() { return "Layout"; }
 
-    private: override void processFunction(Function* pFun)
+    private: virtual void processFunction(Function* pFun) override
     {
         SubPassPredict::Run(pFun);
         SubPassReorder::Run(pFun);

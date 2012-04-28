@@ -157,7 +157,7 @@ void Mm::AddFreeArea(Area* const pArea)
     {
         Area* pCurr = oEnum.Get();
 
-        if (pCurr->GetBtm<Area>() == pArea)
+        if (pCurr->GetBtm_<Area>() == pArea)
         {
             // pCurr ... pArea
             pCurr->m_cbArea += pArea->m_cbArea;
@@ -165,7 +165,7 @@ void Mm::AddFreeArea(Area* const pArea)
 
             if (Area* pNext = pCurr->GetNext())
             {
-                if (pCurr->GetBtm<Area>() == pNext)
+                if (pCurr->GetBtm_<Area>() == pNext)
                 {
                     // pCurr ... pArea ... pNext
                     pCurr->m_cbArea += pNext->m_cbArea;
@@ -175,7 +175,7 @@ void Mm::AddFreeArea(Area* const pArea)
             return;
         } // if
 
-        if (pArea->GetBtm<Area>() == pCurr)
+        if (pArea->GetBtm_<Area>() == pCurr)
         {
             // pArea ... pCurr
             sm_oFreeAreas.InsertBefore(pArea, pCurr);

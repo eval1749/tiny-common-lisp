@@ -29,7 +29,7 @@ class FileStreamImpl : public StreamImpl
         m_h(hFile) {}
 
     // [C]
-    public: override Val Close(Val, Val)
+    public: virtual Val Close(Val, Val) override
     {
         if (INVALID_HANDLE_VALUE != m_h)
         {
@@ -124,14 +124,14 @@ class CharInStreamImpl : public FileStreamImpl
     } // fill
 
     // [G]
-    public: override Val GetLineColumn(Val)
+    public: virtual Val GetLineColumn(Val) override
         { return m_line_column; }
 
-    public: override Val GetLineNumber(Val)
+    public: virtual Val GetLineNumber(Val) override
         { return m_line_number; }
 
     // [R]
-    public: override Val ReadChar(Val stream)
+    public: virtual Val ReadChar(Val stream) override
     {
         if (characterp(m_unread))
         {
@@ -175,7 +175,7 @@ class CharInStreamImpl : public FileStreamImpl
     } // readChar
 
     // [U]
-    public: override void UnreadChar(Val stream, Val ch)
+    public: virtual void UnreadChar(Val stream, Val ch) override
     {
         ASSERT(characterp(ch));
 
@@ -219,7 +219,7 @@ class CharOutStreamImpl : public FileStreamImpl
     } // Close
 
     // [F]
-    public: override void ForceOutput(Val stream)
+    public: virtual void ForceOutput(Val stream) override
     {
         const char* pch = m_rgch;
 
@@ -253,17 +253,17 @@ class CharOutStreamImpl : public FileStreamImpl
     } // ForceOutput
 
     // [G]
-    public: override Val GetLineColumn(Val)
+    public: virtual Val GetLineColumn(Val) override
         { return m_line_column; }
 
-    public: override Val GetLineNumber(Val)
+    public: virtual Val GetLineNumber(Val) override
         { return m_line_number; }
 
     // [W]
-    public: override void WriteString(
+    public: virtual void WriteString(
         Val             stream,
         const char16*   pwchIn,
-        int             cwchIn )
+        int             cwchIn ) override
     {
         const char16* pwchStart = pwchIn;
         const char16* pwchEnd   = pwchIn + cwchIn;
@@ -363,17 +363,17 @@ class ConsoleStreamImpl : public StreamImpl
         m_unread(nil) {}
 
     // [F]
-    public: override void ForceOutput(Val) {}
+    public: virtual void ForceOutput(Val) override {}
 
     // [G]
-    public: override Val GetLineColumn(Val)
+    public: virtual Val GetLineColumn(Val) override
     {
         CONSOLE_SCREEN_BUFFER_INFO oInfo;
         if (! ::GetConsoleScreenBufferInfo(m_hOutput, &oInfo)) return nil;
         return Fixnum::Encode(oInfo.dwCursorPosition.X);
     } // GetLineColumn
 
-    public: override Val GetLineNumber(Val)
+    public: virtual Val GetLineNumber(Val) override
         { return nil; }
 
     // [O]
@@ -408,7 +408,7 @@ class ConsoleStreamImpl : public StreamImpl
     } // openConIn
 
     // [R]
-    public: override Val ReadChar(Val stream)
+    public: virtual Val ReadChar(Val stream) override
     {
         if (characterp(m_unread))
         {
@@ -467,10 +467,10 @@ class ConsoleStreamImpl : public StreamImpl
     } // readChar
 
     // [W]
-    public: override void WriteString(
+    public: virtual void WriteString(
         Val,
         const char16* pwchIn,
-        int           cwchIn )
+        int           cwchIn ) override
     {
         const char16* const pwchEnd = pwchIn + cwchIn;
 
@@ -493,7 +493,7 @@ class ConsoleStreamImpl : public StreamImpl
     } // WriteString
 
     // [U]
-    public: override void UnreadChar(Val stream, Val ch)
+    public: virtual void UnreadChar(Val stream, Val ch) override
     {
         ASSERT(characterp(ch));
 

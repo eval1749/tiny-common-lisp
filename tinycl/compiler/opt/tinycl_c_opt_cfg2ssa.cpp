@@ -582,7 +582,7 @@ class PassCfg2Ssa :
     public: static const char* GetName_() { return "Cfg2Ssa"; }
 
     // Entry point
-    protected: override void processFunction(Function* pFun)
+    protected: virtual void processFunction(Function* pFun) override
     {
         pFun->ComputeDominance();
         SubPassPrepare::Run(pFun);

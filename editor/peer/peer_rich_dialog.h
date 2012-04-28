@@ -69,11 +69,11 @@ class RichDialog : public Window_<RichDialog>
     private: bool motion(HWND, uint, bool);
 
     // [O]
-    protected: override int     onCreate(CREATESTRUCT*);
-    protected: override void    onCommand(uint, uint) {}
-    protected: override LRESULT onMessage(uint, WPARAM, LPARAM);
+    protected: virtual int onCreate(CREATESTRUCT*) override;
+    protected: virtual void onCommand(uint, uint) {}
+    protected: virtual LRESULT onMessage(uint, WPARAM, LPARAM) override;
 
-    protected: override void onNcDestroy()
+    protected: virtual void onNcDestroy() override
     {
         ASSERT(sm_nModal > 0);
         sm_nModal -= 1;

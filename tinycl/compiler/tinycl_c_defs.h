@@ -666,7 +666,7 @@ class CfgEdge :
             Edge(pFrom, pTo, eKind) {}
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // CfgEdge
 
 class CgEdge :
@@ -686,7 +686,7 @@ class CgEdge :
             Edge(pIn, pOut, eKind) {}
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // CgEdge
 
 class Operand :
@@ -705,7 +705,7 @@ class Operand :
         { return this == that; }
 
     // [G]
-    public: override const Type* GetTy() const { CAN_NOT_HAPPEN(); }
+    public: virtual const Type* GetTy() const { CAN_NOT_HAPPEN(); }
 
     // [I]
     public: virtual bool IsFalse()     const { return false; }
@@ -744,7 +744,7 @@ class OperandBox :
         { return GetOperand()->DynamicCast<Register>(); }
 
     // [H]
-    public: override void HtmlPrint(Val s, bool = false) const
+    public: virtual void HtmlPrint(Val s, bool = false) const
         { GetOperand()->HtmlPrint(s, false); }
 
     // [I]
@@ -816,17 +816,20 @@ class Type :
     public: static const Type* Diff(const Type*, const Type*);
 
     // [E]
+    public: virtual bool Equal(const Operand* const that) const override
+        { return this == that; }
+
     public: virtual bool Equal(const Type* that) const
         { return this == that; }
 
     // [G]
-    public: override const char* GetKind() const { return Kind_(); }
+    public: virtual const char* GetKind() const override { return Kind_(); }
 
     public: virtual const Type* GetPrimaryTy() const
         { return const_cast<Type*>(this); }
 
     // [H]
-    public: override void HtmlPrint(Val stream, bool) const
+    public: virtual void HtmlPrint(Val stream, bool) const override
         { cformat(stream, "<i class='t'>~W</i>", Unparse()); }
 
     // [I]
@@ -920,8 +923,8 @@ class TyClass : public WithCastable_<TyClass, Type>
     public: TyClass(Val);
 
     // [C]
-    public: override const Type* ComputeAnd(const Type*) const;
-    public: override const Type* ComputeDiff(const Type*) const;
+    public: virtual const Type* ComputeAnd(const Type*) const override;
+    public: virtual const Type* ComputeDiff(const Type*) const override;
 
     // [B]
     public: static void BeginStaticInit(Mm*);
@@ -936,13 +939,13 @@ class TyClass : public WithCastable_<TyClass, Type>
     public: static const TyClass* Get(Val);
 
     // [I]
-    public: override Subtype::Answer IsSubtypeOf(const Type*) const;
+    public: virtual Subtype::Answer IsSubtypeOf(const Type*) const override;
 
-    public: override Subtype::Answer IsType(Val x) const
+    public: virtual Subtype::Answer IsType(Val x) const override
         { return typep(x, m_typespec) ? Subtype::Yes : Subtype::No; }
 
     // [U]
-    public: override Val Unparse() const
+    public: virtual Val Unparse() const override
         { return class_name(m_typespec); }
 }; // TyClass
 
@@ -980,8 +983,8 @@ class TyInteger : public WithCastable_<TyInteger, Type>
     public: bool Contain(const TyInteger*) const;
 
     // [I]
-    public: override Subtype::Answer IsSubtypeOf(const Type* that) const;
-    public: override Subtype::Answer IsType(Val) const;
+    public: virtual Subtype::Answer IsSubtypeOf(const Type* that) const override;
+    public: virtual Subtype::Answer IsType(Val) const override;
 
     // [P]
     public: static const TyInteger* Parse(Val, Val);
@@ -1015,7 +1018,7 @@ class TyOr : public WithCastable_<TyOr, Type>
         { return m_oElts.Append(pty); }
 
     // [C]
-    public: override const Type* ComputeDiff(const Type*) const;
+    public: virtual const Type* ComputeDiff(const Type*) const override;
 
     // [E]
     public: class Enum : public Types::Enum
@@ -1024,11 +1027,14 @@ class TyOr : public WithCastable_<TyOr, Type>
             Types::Enum(&p->m_oElts) {}
     }; // Enum
 
-    public: override bool Equal(const Type*) const;
+    public: virtual bool Equal(const Operand* const that) const
+        { return this == that; }
+
+    public: virtual bool Equal(const Type*) const override;
 
     // [I]
-    public: override Subtype::Answer IsSubtypeOf(const Type*) const;
-    public: override Subtype::Answer IsType(Val) const;
+    public: virtual Subtype::Answer IsSubtypeOf(const Type*) const override;
+    public: virtual Subtype::Answer IsType(Val) const override;
 
     // [P]
     public: static const Type* Parse(Val, Val);
@@ -1047,12 +1053,12 @@ class TyForeign : public WithCastable_<TyForeign, Type>
     } // TyForeign
 
     // [I]
-    public: override bool IsForeign() const { return true; }
+    public: virtual bool IsForeign() const override { return true; }
 
-    public: override Subtype::Answer IsSubtypeOf(const Type* that) const
+    public: virtual Subtype::Answer IsSubtypeOf(const Type* that) const override
         { return this == that ? Subtype::Yes : Subtype::Unknown; }
 
-    public: override Subtype::Answer IsType(Val) const
+    public: virtual Subtype::Answer IsType(Val) const override
         { return Subtype::No; }
 }; // TyForeign
 
@@ -1175,18 +1181,21 @@ class TyValues : public WithCastable_<TyValues, Type>
         public: void Next();
     }; // Enum
 
-    public: override bool Equal(const Type* that) const;
+    public: virtual bool Equal(const Operand* const that) const
+        { return this == that; }
+
+    public: virtual bool Equal(const Type* that) const override;
 
     // [G]
     public: const Type* GetNthTy(Int) const;
 
-    public: override const Type* GetPrimaryTy() const
+    public: virtual const Type* GetPrimaryTy() const override
         { return GetNthTy(0); }
 
     // [I]
     public: const Type* IsScalar() const;
 
-    public: override Subtype::Answer IsType(Val) const
+    public: virtual Subtype::Answer IsType(Val) const override
         { CAN_NOT_HAPPEN(); }
 
     // [O]
@@ -1291,7 +1300,7 @@ class Integer :
     public: const Type* GetTy()    const { return tyInt; }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [N]
     public: static Integer* New(Int iVal)
@@ -1311,13 +1320,13 @@ class Label :
         m_pBBlock(p) {}
 
     // [E]
-    public: override bool Equal(const Operand* const) const;
+    public: virtual bool Equal(const Operand* const) const override;
 
     // [G]
     public: BBlock* GetBB() const { return m_pBBlock; }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [S]
     public: BBlock* SetBB(BBlock* p) { return m_pBBlock = p; }
@@ -1339,7 +1348,7 @@ class Literal :
         m_value(val) {}
 
     // [E]
-    public: override bool Equal(const Operand* const p) const
+    public: virtual bool Equal(const Operand* const p) const override
     {
         if (Literal* that = p->DynamicCast<Literal>())
         {
@@ -1350,17 +1359,17 @@ class Literal :
 
     // [G]
     public: Val   GetDatum() const { return m_value; }
-    public: override const Type* GetTy() const;
+    public: virtual const Type* GetTy() const override;
 
     // [I]
-    public: override bool IsFalse() const { return nil == GetDatum(); }
-    public: override bool IsTrue()  const { return nil != GetDatum(); }
+    public: virtual bool IsFalse() const override { return nil == GetDatum(); }
+    public: virtual bool IsTrue()  const override { return nil != GetDatum(); }
 
     // [N]
     public: static Literal* New(Val obj);
 
     // [S]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [T]
     public: static Operand* True(const Operand*);
@@ -1385,7 +1394,7 @@ class Output :
     // [G]
     public: Instruction*         GetDefI() const { return m_pDefI; }
     public: int                  GetName() const { return m_iName; }
-    public: override const Type* GetTy()   const { return tyT; }
+    public: virtual const Type* GetTy() const override { return tyT; }
 
     protected: virtual char16 getPrefix() const { return 'r'; }
 
@@ -1395,7 +1404,7 @@ class Output :
 
     // [S]
     public: Instruction* SetDefI(Instruction* p) { return m_pDefI = p; }
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // Output
 
 /// <summary>
@@ -1408,7 +1417,7 @@ class SsaOutput :
     public: static const char* Kind_() { return "SsaOutput"; }
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 
     // [E]
     public: class EnumUser : public Users::Enum
@@ -1431,18 +1440,18 @@ class SsaOutput :
         return pBox;
     } // GetSingleUser
 
-    public: override const Type* GetTy() const;
+    public: virtual const Type* GetTy() const override;
 
     // [H]
     public: bool HasUser() const
         { return ! static_cast<const Users*>(this)->IsEmpty(); }
 
     // [R]
-    public: override void Realize(OperandBox*);
+    public: virtual void Realize(OperandBox*) override;
     public: void          ReplaceAll(Operand*);
 
     // [U]
-    public: override void Unrealize(OperandBox*);
+    public: virtual void Unrealize(OperandBox*) override;
 }; // SsaOutput
 
 /// <summary>
@@ -1454,14 +1463,14 @@ class Bool :
     public: static const char* Kind_() { return "Bool"; }
 
     // [G]
-    public: override const Type* GetTy() const { return tyBool; }
+    public: virtual const Type* GetTy() const { return tyBool; }
 
     // [I]
     public: virtual bool IsFalse() const { return this == Bool_False; }
     public: virtual bool IsTrue()  const { return this == Bool_True; }
 
     // [S]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // Bool
 
 /// <summary>
@@ -1474,10 +1483,10 @@ class DynConstant :
     public: static const char* Kind_() { return "DynConstant"; }
 
     // [G]
-    public: override const Type* GeTy() const { return tyT; }
+    public: virtual const Type* GeTy() const { return tyT; }
 
     // [S]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // DynConstant
 
 //  m_nCount
@@ -1510,10 +1519,10 @@ class FrameReg :
     public: Val                  GetFrameKind() const { return m_kind; }
     public: int                  GetLocation()  const { return m_ofs; }
     public: FrameReg*            GetOuter()     const { return m_pOuter; }
-    public: override const Type* GetTy()        const { return tyPtrT; }
+    public: virtual const Type* GetTy() const override { return tyPtrT; }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [S]
     public: int SetLocation(int ofs)        { return m_ofs = ofs; }
@@ -1527,7 +1536,7 @@ class Pseudo :
 {
     public: static const char* Kind_() { return "Pseudo"; }
 
-    protected: override char16 getPrefix() const { return 'q'; }
+    protected: virtual char16 getPrefix() const override { return 'q'; }
 }; // Pseudo
 
 enum RegClass
@@ -1593,7 +1602,7 @@ class Float :
     public: Float() { init(RegClass_Fpr); }
     public: Float(Variable* pVar) { init(RegClass_Fpr, pVar); }
 
-    protected: override char16 getPrefix() const { return 'f'; }
+    protected: virtual char16 getPrefix() const override { return 'f'; }
 }; // Float
 
 typedef DoubleLinkedList_<Register> RegList;
@@ -1608,10 +1617,10 @@ class TrueOperand :
     public: static const char* Kind_() { return "TrueOperand"; }
 
     // [G]
-    public: override const Type* GetTy() const { return tyT; }
+    public: virtual const Type* GetTy() const override { return tyT; }
 
     // [H]
-    public: override void HtmlPrint(Val s, bool = false) const
+    public: virtual void HtmlPrint(Val s, bool = false) const override
         { format(s, "True"); }
 }; // TrueOperand
 
@@ -1622,7 +1631,7 @@ class Values : public Operand_<Values, SsaOutput>
 {
     public: static const char* Kind_() { return "Values"; }
 
-    protected: override char16 getPrefix() const { return 'v'; }
+    protected: virtual char16 getPrefix() const override { return 'v'; }
 }; // Values
 
 /// <summary>
@@ -1679,10 +1688,10 @@ class Variable :
     public: bool HasLocation() const
         { return -1 != m_iLocation; }
 
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [R]
-    public: override void Realize(OperandBox*);
+    public: virtual void Realize(OperandBox*) override;
 
     // [S]
     public: Instruction* SetDefI(Instruction* pI) { return m_pDefI = pI; }
@@ -1690,7 +1699,7 @@ class Variable :
     public: Storage      SetStorage(Storage e)    { return m_eStorage = e; }
     public: const Type*  SetTy(const Type* p)     { return m_pty = p; }
     // [U]
-    public: override void Unrealize(OperandBox*);
+    public: virtual void Unrealize(OperandBox*) override;
 }; // Variable
 
 class VariableOperandBox :
@@ -1709,7 +1718,7 @@ class UnreachableOutput :
 {
     public: static const char* Kind_() { return "Unreachable"; }
 
-    public: override void HtmlPrint(Val stream, bool = false) const
+    public: virtual void HtmlPrint(Val stream, bool = false) const override
         { html_format(stream, "%unreachable"); }
 }; // UnreachableOutput
 
@@ -1721,7 +1730,7 @@ class VoidOutput :
 {
     public: static const char* Kind_() { return "Void"; }
 
-    public: override void HtmlPrint(Val stream, bool = false) const
+    public: virtual void HtmlPrint(Val stream, bool = false) const override
         { html_format(stream, "%void"); }
 }; // VoidOutput
 
@@ -1891,7 +1900,7 @@ class Instruction :
         { return GetSy()->DynamicCast<Values>(); }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [I]
     public: Operand* InsertOperandBefore(Operand* pSx, OperandBox* pRef)
@@ -2027,7 +2036,7 @@ class BBlock :
         { return static_cast<const LayoutNode*>(this)->GetPrev(); }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [I]
     public: Instruction* InsertAfterI(Instruction*, Instruction*);
@@ -2310,7 +2319,7 @@ class Function :
     public: PrologueI*           GetPrologueI() const;
     public: Function*            GetSingleCaller() const;
     public: BBlock*              GetStartBB() const;
-    public: override const Type* GetTy() const { return m_pFunty; }
+    public: virtual const Type* GetTy() const override { return m_pFunty; }
 
     // [H]
     public: bool HasCallSite() const
@@ -2319,7 +2328,7 @@ class Function :
     public: bool HasNonlocalExitPoint() const;
     public: bool HasUpVar() const;
     public: bool HasUseSite() const;
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [I]
     /// <summary>
@@ -2364,7 +2373,7 @@ class Function :
     public: void NumberInstructions();
 
     // [R]
-    public: override void Realize(OperandBox*);
+    public: virtual void Realize(OperandBox*) override;
     public: void          RemoveBBlock(BBlock*);
 
     public: void RemoveFrameReg(FrameReg* p)
@@ -2386,7 +2395,7 @@ class Function :
 
     // [U]
     public: uint          UnmarkFlag(uint n) { return m_rgfFlag &= ~n; }
-    public: override void Unrealize(OperandBox*);
+    public: virtual void Unrealize(OperandBox*) override;
     public: bool          UpdateValueTy();
 
     // [V]
@@ -2441,7 +2450,7 @@ class FunName :
     public: const Type*        GetTy()    const { return GetFunty(); }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [I]
     public: static FunName* Intern(Val);
@@ -2467,7 +2476,7 @@ class Module :
     class_Enum_(Module, FunctionPostorder, PostorderList)
 
     // [P]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 
     // [R]
     public: void RemoveFunction(Function*);
@@ -2489,11 +2498,11 @@ class Mm : public IMm
 
     public: Mm(HANDLE hHeap) : m_hHeap(hHeap) {}
 
-    public: ~Mm()
+    public: virtual ~Mm()
         { if (NULL != m_hHeap) ::HeapDestroy(m_hHeap); }
 
     // [A]
-    public: override void* Alloc(size_t cb)
+    public: virtual void* Alloc(size_t cb)
         { return ::HeapAlloc(m_hHeap, HEAP_ZERO_MEMORY, cb); }
 
     // [D]
@@ -2646,7 +2655,7 @@ class ModulePass :
 template<class Self_, class Parent_ = Pass>
 class Pass_ : public WithCastable_<Self_, Parent_>
 {
-    public: override const char* GetName() const
+    public: virtual const char* GetName() const override
         { return Self_::GetName_(); }
 
     public: static const char* Kind_()
@@ -2660,7 +2669,7 @@ class SubPass : public Pass
 #define PROCESS_I_NAME_(mp_name) process_ ## mp_name
 
 #define DefProcI(mp_name) \
-    protected: override void PROCESS_I_NAME_(mp_name)(Instruction* pI)
+    protected: virtual void PROCESS_I_NAME_(mp_name)(Instruction* pI) override
 
 #define DefProcI_(mp_name) \
     void THIS_PASS :: PROCESS_I_NAME_(mp_name)(Instruction* pI)

@@ -41,7 +41,7 @@ class TextWindow :
             m_iDirection(0),
             m_nStartTick(0) {}
 
-        public: override void OnTimer(Window*);
+        public: virtual void OnTimer(Window*) override;
 
         public: void Start(HWND hwnd, int iDir)
         {
@@ -164,13 +164,13 @@ class TextWindow :
     public: void Blink(Posn, Val);
 
     // [C]
-    private: bool               checkObsolete();
-    public:  override Window*   Clone() const;
-    public:  Count              ComputeMotion(Unit, Val, POINT, Posn*);
+    private: bool  checkObsolete();
+    public:  virtual Window* Clone() const override;
+    public:  Count ComputeMotion(Unit, Val, POINT, Posn*);
 
     // [D]
-    public: bool override DrawStatusBar(StatusBar* const);
-    public: bool override DrawTitleBar(TitleBar* const);
+    public: virtual bool DrawStatusBar(StatusBar* const);
+    public: virtual bool DrawTitleBar(TitleBar* const)  override;
 
     // [E]
     public:  Posn EndOfLine(Posn);
@@ -205,11 +205,11 @@ class TextWindow :
     private: Posn mapXToPosn(int, Posn);
 
     // [O]
-    private: override int     onCreate(CREATESTRUCT*);
-    private: override void    onDestroy();
-    private: override bool    OnIdle(uint);
-    private: override LRESULT onMessage(uint, WPARAM, LPARAM);
-    private: override void    onSetFocus();
+    private: virtual int     onCreate(CREATESTRUCT*) override;
+    private: virtual void    onDestroy() override;
+    private: virtual bool    OnIdle(uint) override;
+    private: virtual LRESULT onMessage(uint, WPARAM, LPARAM) override;
+    private: virtual void    onSetFocus() override;
 
     // [P]
     private: void prepareScroll(HDC, FormatParams*);
@@ -221,7 +221,7 @@ class TextWindow :
 
     // [S]
     private: void          selectWord(Posn);
-    public:  override void SetScrollBar(HWND, int);
+    public:  virtual void SetScrollBar(HWND, int) override;
     private: void          setupFormat(FormatParams*, bool);
     private: void          setupFormat(FormatParams*);
     public:  int           SmallScroll(int, int);

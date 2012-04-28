@@ -39,7 +39,7 @@ class TttnLit :
         { return m_e; }
 
     // [H]
-    public: override void HtmlPrint(Val stream, bool) const
+    public: virtual void HtmlPrint(Val stream, bool) const override
     {
         static const char* const s_rgpszTttn[16] =
         {

@@ -136,7 +136,7 @@ class PassStack :
     private: Function*  m_pFun;
 
     // Entry Point
-    private: override void processFunction(Function* pFun)
+    private: virtual void processFunction(Function* pFun) override
     {
         m_cbVar = Context::Get()->GetTarget()->GetGprGroup()->m_cbWidth;
         m_pFun  = pFun;

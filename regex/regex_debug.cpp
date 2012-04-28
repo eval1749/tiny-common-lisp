@@ -11,6 +11,7 @@
 //
 // @(#)$Id: //proj/evedit2/mainline/regex/regex_debug.cpp#1 $
 //
+#include "regex_debug.h"
 #include <stdlib.h> // EXIT_FAILURE
 
 namespace Debugger
@@ -44,8 +45,7 @@ get_conout()
 //
 // Assert
 //
-void
-Assert(
+void __fastcall Assert(
     LPCSTR  pszFileName,
     int     iLineNum,
     LPCSTR  pszFunction,
@@ -58,28 +58,27 @@ Assert(
     }
 
     Fail(
-        L"Assertion failed %hs\n"
-        L"FileName: %hs\n"
-        L"Line:     %d\n"
-        L"Function: %hs\n",
+        "Assertion failed %hs\n"
+        "FileName: %hs\n"
+        "Line:     %d\n"
+        "Function: %hs\n",
         pszExpr,
         pszFileName,
         iLineNum,
         pszFunction );
 } // Assert
 
-// Can_Not_Happen
-void
-Can_Not_Happen(
+// CanNotHappen
+void __fastcall CanNotHappen(
     LPCSTR  pszFileName,
     int     iLineNum,
     LPCSTR  pszFunction )
 {
     Fail(
-        L"Can't Happen!!\n"
-        L"FileName: %hs\n"
-        L"Line:     %d\n"
-        L"Function: %hs\n",
+        "Can't Happen!!\n"
+        "FileName: %hs\n"
+        "Line:     %d\n"
+        "Function: %hs\n",
         pszFileName,
         iLineNum,
         pszFunction );
@@ -87,8 +86,7 @@ Can_Not_Happen(
 
 #else
 // Can_Not_Happen
-void
-Can_Not_Happen(
+void __fastcall Can_Not_Happen(
     LPCSTR,
     int,
     LPCSTR)
@@ -102,24 +100,25 @@ Can_Not_Happen(
 //
 // Debugger - Fail
 //
-void
-Fail(LPCWSTR pwszFormat, ...)
+void __fastcall Fail(LPCSTR pszFormat, ...)
 {
-    va_list args;
-    va_start(args, pwszFormat);
+    char sz[1024];
+    {
+        va_list args;
+        va_start(args, pszFormat);
+        ::wvsprintfA(sz, pszFormat, args);
+        va_end(args);
+    }
 
-    WCHAR wsz[1024];
-        ::wvsprintfW(wsz, pwszFormat, args);
-
-    ::OutputDebugString(wsz);
+    ::OutputDebugStringA(sz);
 
     if (get_conout())
     {
         DWORD cchWritten;
-        ::WriteConsoleW(
+        ::WriteConsoleA(
             g_hConOut,
-            wsz,
-            ::lstrlenW(wsz),
+            sz,
+            DWORD(::lstrlenA(sz)),
             &cchWritten,
             NULL );
     } // if
@@ -129,9 +128,10 @@ Fail(LPCWSTR pwszFormat, ...)
         __debugbreak();
     }
 
-    ::MessageBoxW(
+    ::MessageBoxA(
         NULL,
-        wsz, L"Evita Common Lisp",
+        sz, 
+        "Evita Common Lisp",
         MB_ICONERROR | MB_TASKMODAL );
 
     ::ExitProcess(EXIT_FAILURE);
@@ -142,16 +142,16 @@ Fail(LPCWSTR pwszFormat, ...)
 //
 // Debugger - Printf
 //
-void
-Printf(LPCWSTR pwszFormat, ...)
+void __fastcall Printf(LPCSTR pszFormat, ...)
 {
-    va_list args;
-    va_start(args, pwszFormat);
+    char szString[1024];
+    {
+        va_list args;
+        va_start(args, pszFormat);
+        ::wvsprintfA(szString, pszFormat, args);
+    }
 
-    WCHAR wszString[1024];
-    ::wvsprintfW(wszString, pwszFormat, args);
-
-    ::OutputDebugString(wszString);
+    ::OutputDebugStringA(szString);
 
     #if 0
     {
@@ -160,8 +160,8 @@ Printf(LPCWSTR pwszFormat, ...)
             DWORD cchWritten;
             ::WriteConsoleW(
                 g_hConOut,
-                wszString,
-                ::lstrlenW(wszString),
+                szString,
+                ::lstrlenW(szString),
                 &cchWritten,
                 NULL );
         }
@@ -169,9 +169,7 @@ Printf(LPCWSTR pwszFormat, ...)
     #endif
 } // Printf
 
-
-void
-PrintHeader(const char* pszFname)
+void __fastcall PrintHeader(const char* pszFname)
 {
     char sz[1024];
     ::wsprintfA(sz, "%d %s: ", ::GetTickCount(), pszFname);

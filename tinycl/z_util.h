@@ -504,11 +504,11 @@ class WithCastable_ : public B
     protected: typedef WithCastable_<T, B> Base;
 
     // [G]
-    public: override const char* GetKind() const
+    public: const char* GetKind() const override
         { return T::Kind_(); }
 
     // [I]
-    public: override bool Is_(const char* psz) const
+    public: bool Is_(const char* psz) const override
     { 
         if (T::Kind_() == psz) return true;
         return B::Is_(psz);

@@ -149,7 +149,7 @@ class TextRun_ : public WithCastable_<T, B>
     
     protected: TextRun_() {}
 
-    public: override const char* GetKind() const
+    public: virtual const char* GetKind() const override
         { return T::Kind_(); }
 }; // TextRun_
 
@@ -227,7 +227,7 @@ class EofMarker : public Marker_<EofMarker>
     #endif
 
     // [R]
-    public: override void Render(HDC hdc, const RECT* prc) const
+    public: virtual void Render(HDC hdc, const RECT* prc) const override
     {
         fillRect(hdc, prc, m_oStyle.m_crBackground);
 
@@ -266,7 +266,7 @@ class EolMarker : public Marker_<EolMarker>
         } // EolMarker
 
     // [R]
-    public: override void Render(HDC hdc, const RECT* prc) const
+    public: virtual void Render(HDC hdc, const RECT* prc) const override
     {
         fillRect(hdc, prc, m_oStyle.m_crBackground);
 
@@ -351,7 +351,7 @@ class StringRun : public TextRun_<StringRun>
     } // CanMerge
 
     // [E]
-    public: override bool Equal(const TextRun* p) const
+    public: virtual bool Equal(const TextRun* p) const override
     {
         if (StringRun* q =  p->DynamicCast<StringRun>())
         {
@@ -398,7 +398,7 @@ class StringRun : public TextRun_<StringRun>
     } // MapPosnToX
 
     // [R]
-    public: override void Render(HDC hdc, const RECT* prc) const
+    public: virtual void Render(HDC hdc, const RECT* prc) const override
     {
         int y = prc->bottom - m_cyDescent;
 
@@ -467,7 +467,7 @@ class TabMarker : public TextRun_<TabMarker>
     } // TabMarker
 
     // [R]
-    public: override void Render(HDC hdc, const RECT* prc) const
+    public: virtual void Render(HDC hdc, const RECT* prc) const override
     {
         fillRect(hdc, prc, m_oStyle.m_crBackground);
 
@@ -514,7 +514,7 @@ class UnprintableRun : public TextRun_<UnprintableRun>
     } // UnprintableRun
 
     // [E]
-    public: override bool Equal(const TextRun* p) const
+    public: virtual bool Equal(const TextRun* p) const override
     {
         ASSERT(m_cwch <= lengthof(m_rgwch));
         
@@ -540,7 +540,7 @@ class UnprintableRun : public TextRun_<UnprintableRun>
     } // Hash
 
     // [R]
-    public: override void Render(HDC hdc, const RECT* prc) const
+    public: virtual void Render(HDC hdc, const RECT* prc) const override
     {
         ::SetTextColor(hdc, m_oStyle.m_crMarker);
         ::SetBkColor(hdc, m_oStyle.m_crBackground);
@@ -569,7 +569,7 @@ class WrapMarker : public Marker_<WrapMarker>
             Marker_<WrapMarker>(hdc, pStyle, start, xLeft) {}
 
     // [R]
-    public: override void Render(HDC hdc, const RECT* prc) const
+    public: virtual void Render(HDC hdc, const RECT* prc) const override
     {
         fillRect(hdc, prc, m_oStyle.m_crBackground);
 

@@ -80,6 +80,44 @@
         (error "FAILED ~S expect=~S result=~S~%" id expect result) )
       succeeded ) ) )
 
+#|
+(defun test-case (id pat txt opts expect)
+  (labels (
+    (commafy (list &optional (separator ", "))
+      (with-output-to-string (out)
+        (let ((comma ""))
+          (dolist (x list)
+            (write-string comma out)
+            (setq comma separator)
+            (write-string x out) ) ) ) )
+    (escape (in)
+      (with-output-to-string (out)
+        (write-char #\" out)
+        (dotimes (i (length in))
+          (let ((ch (char in i)))
+            (cond
+              ((char= ch #\Newline)
+                (write-string "\\n" out) )
+              ((char< ch #\Space)
+                (format out "\\x~2,'0X" (char-code ch)) )
+              ((or (char= ch #\\) (char= ch #\"))
+                (write-char #\\ out)
+                (write-char ch out))
+              (t (write-char (char in i) out))) ) )
+        (write-char #\" out)) )
+    (parse-options (options)
+      (let ((results '()))
+        (when (getf options :from-end) (push "Regex::Option_Backward" results))
+        (when (getf options :multiple-line) (push "Regex::Option_Multiline" results))
+        (and results (list (commafy results))) ) )
+    )
+  (format t "  EXPECT_EQ(Result(~A), Execute(~A)); // ~A~%"
+    (commafy (mapcar #'escape (if (listp expect) expect (list expect))))
+    (commafy (list* (escape pat) (escape txt) (parse-options opts)))
+    id) ) )
+
+|#
+
 (test-case "fixed-001" "foo" "foobar" nil '("foo"))
 (test-case "fixed-002" "foo" "abcfoobar" nil '("foo"))
 (test-case "quant-001" "foo.*" "foo" nil '("foo"))

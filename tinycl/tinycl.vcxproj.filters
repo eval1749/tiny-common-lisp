@@ -46,6 +46,9 @@
     <Filter Include="genesis">
       <UniqueIdentifier>{8d1b64e7-9761-4a36-9eb1-1ecd102e22fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="support">
+      <UniqueIdentifier>{cff6233a-813e-444f-8c8a-8a0540888dd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="rtl\tinycl_bignum.cpp">
@@ -304,13 +307,13 @@
       <Filter>genesis</Filter>
     </ClCompile>
     <ClCompile Include="precomp.cpp">
-      <Filter>rtl</Filter>
+      <Filter>support</Filter>
     </ClCompile>
     <ClCompile Include="vcsupport.cpp">
-      <Filter>rtl</Filter>
+      <Filter>support</Filter>
     </ClCompile>
     <ClCompile Include="z_util.cpp">
-      <Filter>rtl</Filter>
+      <Filter>support</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -345,12 +348,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tinycl_util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="z_debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="z_defs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="compiler\tinycl_c_defs.h">
@@ -423,10 +420,16 @@
       <Filter>kernel</Filter>
     </ClInclude>
     <ClInclude Include="precomp.h">
-      <Filter>Header Files</Filter>
+      <Filter>support</Filter>
     </ClInclude>
     <ClInclude Include="vcsupport.h">
-      <Filter>Header Files</Filter>
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="z_defs.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="z_debug.h">
+      <Filter>support</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

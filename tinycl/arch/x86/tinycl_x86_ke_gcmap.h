@@ -237,6 +237,8 @@ class GcMap :
 
     public: GcMap(const void* const pv, uint const cb) :
         GcMapBase(pv, cb) {}
+
+    DISALLOW_COPY_AND_ASSIGN(GcMap);
 }; // GcMap
 
 } // TinyCl

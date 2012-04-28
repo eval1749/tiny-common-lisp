@@ -734,7 +734,7 @@ class SubPassAllocate :
         } // for child
     } // processBBlock
 
-    private: override void processDefault(Instruction* pI)
+    private: virtual void processDefault(Instruction* pI) override
     {
         foreach (Instruction::EnumOperand, oEnum, pI)
         {
@@ -1173,7 +1173,7 @@ class SubPassAssign :
         } // for insn
     } // processBBlock
 
-    private: override void processDefault(Instruction* pI)
+    private: virtual void processDefault(Instruction* pI) override
     {
         processOperands(pI);
         processOutput(pI);
@@ -2264,7 +2264,7 @@ class SubPassRa :
 {
     public: static const char* GetName_() { return "Ra.Core"; }
 
-    public: override const char* GetName() const
+    public: virtual const char* GetName() const override
         { return m_pRegGroup->m_pszName; }
 
     private: bool               m_fNoCalleeSave;
@@ -2439,7 +2439,7 @@ class PassRa :
 {
     public: static const char* GetName_() { return "Ra"; }
 
-    private: override void processFunction(Function* pFun)
+    private: virtual void processFunction(Function* pFun) override
     {
         SubPassRemoveCriticalEdge::Run(pFun);
 

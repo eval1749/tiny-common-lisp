@@ -52,10 +52,10 @@ class BufferMatchContext :
     } // BufferMatchContext
 
     // [B]
-    private: override bool BackwardFindCharCi(
+    private: virtual bool BackwardFindCharCi(
         char16          wchFind,
         Regex::Posn*    inout_lPosn,
-        Regex::Posn     lStop ) const
+        Regex::Posn     lStop ) const override
     {
         ASSERT(lStop <= *inout_lPosn);
 
@@ -75,10 +75,10 @@ class BufferMatchContext :
         return false;
     } // BackwardFindCharCi
 
-    private: override bool BackwardFindCharCs(
+    private: virtual bool BackwardFindCharCs(
         char16          wchFind,
         Regex::Posn*    inout_lPosn,
-        Regex::Posn     lStop ) const
+        Regex::Posn     lStop ) const override
     {
         ASSERT(lStop <= *inout_lPosn);
 
@@ -99,10 +99,10 @@ class BufferMatchContext :
     } // BackwardFindCharCi
 
     // [F]
-    private: override bool ForwardFindCharCi(
+    private: virtual bool ForwardFindCharCi(
         char16          wchFind,
         Regex::Posn*    inout_lPosn,
-        Regex::Posn     lStop ) const
+        Regex::Posn     lStop ) const override
     {
         Buffer::EnumChar::Arg oArg(
             m_range->StaticCast<Range>()->GetBuffer(),
@@ -120,10 +120,10 @@ class BufferMatchContext :
         return false;
     } // ForwardFindCharCi
 
-    private: override bool ForwardFindCharCs(
+    private: virtual bool ForwardFindCharCs(
         char16          wchFind,
         Regex::Posn*    inout_lPosn,
-        Regex::Posn     lStop ) const
+        Regex::Posn     lStop ) const override
     {
         Buffer::EnumChar::Arg oArg(
             m_range->StaticCast<Range>()->GetBuffer(),
@@ -146,7 +146,7 @@ class BufferMatchContext :
     ///  Get a character at speicifed position.
     /// </summary>
     /// <param name="lPosn">A position to get character.</param>
-    private: override char16 GetChar(Regex::Posn lPosn) const
+    private: virtual char16 GetChar(Regex::Posn lPosn) const override
     {
         return m_range->StaticCast<Range>()->GetBuffer()->GetCharAt(
             Fixnum::Encode(lPosn) );
@@ -155,7 +155,7 @@ class BufferMatchContext :
     /// <summary>
     ///  Get end position of scanning range.
     /// </summary>
-    private: override Regex::Posn GetEnd() const
+    private: virtual Regex::Posn GetEnd() const override
     {
         return Fixnum::Decode_(m_range->StaticCast<Range>()->GetEnd());
     } // GetEnd
@@ -163,7 +163,7 @@ class BufferMatchContext :
     /// <summary>
     ///  Get scanning information.
     /// </summary>
-    private: override void GetInfo(Regex::SourceInfo* p) const
+    private: virtual void GetInfo(Regex::SourceInfo* p) const override
     {
         Range* pRange = m_range->StaticCast<Range>();
         p->m_lStart = 0;
@@ -182,10 +182,10 @@ class BufferMatchContext :
     } // GetEnd
 
     // [S]
-    private: override void SetCapture(
+    private: virtual void SetCapture(
         int         nCapture,
         Regex::Posn lStart,
-        Regex::Posn lEnd )
+        Regex::Posn lEnd ) override
     {
         Val range = svref(m_captures, Fixnum::Encode(nCapture));
         if (nil == range)
@@ -204,10 +204,10 @@ class BufferMatchContext :
         }
     } // SetCapture
 
-    private: override bool StringEqCi(
+    private: virtual bool StringEqCi(
         const char16*   pwch,
         int             cwch,
-        Regex::Posn     lPosn ) const
+        Regex::Posn     lPosn ) const override
     {
         Buffer::EnumChar oEnumBufferChar(
             Buffer::EnumChar::Arg(
@@ -233,10 +233,10 @@ class BufferMatchContext :
         return true;
     } // StringEqCi
 
-    private: override bool StringEqCs(
+    private: virtual bool StringEqCs(
         const char16*   pwch,
         int             cwch,
-        Regex::Posn     lPosn ) const
+        Regex::Posn     lPosn ) const override
     {
         Buffer::EnumChar oEnumBufferChar(
             Buffer::EnumChar::Arg(

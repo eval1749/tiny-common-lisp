@@ -414,6 +414,8 @@ class DomBBlock_ : public Base_
 
     public: void SetParent(BBlock_* pBB)
         { GetDomInfo()->SetParent(pBB); }
+    
+    DISALLOW_COPY_AND_ASSIGN(DomBBlock_);
 }; // DomBBlock_
 
 //////////////////////////////////////////////////////////////////////

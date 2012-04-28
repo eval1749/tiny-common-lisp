@@ -263,7 +263,7 @@ class CompilerString :
     // [G]
     public: char16* Get() const { return m_prgwch; }
 
-    public: override size_t GetSize() const
+    public: virtual size_t GetSize() const override
     {
         size_t cb = sizeof(StringOperand);
         cb  = sizeof(char16) * (m_cwch + 1);
@@ -273,7 +273,7 @@ class CompilerString :
         return cb;
     } // GetSize
 
-    public: override void Serialize(void* pv) const
+    public: virtual void Serialize(void* pv) const override
     {
         StringOperand* p = reinterpret_cast<StringOperand*>(pv);
         p->m_cwch = m_cwch;
@@ -318,7 +318,7 @@ class CharScannerCompiler :
         { return 1; }
 
     // [G]
-    private: override size_t GetSize() const
+    private: virtual size_t GetSize() const
         { return sizeof(CharScanner); }
 
     // [S]
@@ -342,7 +342,7 @@ class FullScannerCompiler :
         { return 1; }
 
     // [G]
-    private: override size_t GetSize() const
+    private: virtual size_t GetSize() const
         { return sizeof(FullScanner); }
 
     // [S]
@@ -401,7 +401,7 @@ class StringScannerCompiler :
         { return m_cwch; }
 
     // [G]
-    private: override size_t GetSize() const
+    private: virtual size_t GetSize() const
     {
         size_t cb = sizeof(StringScanner);
         cb += sizeof(int) * (m_nMaxChar - m_nMinChar + 1);
@@ -479,7 +479,7 @@ class ZeroWidthScannerCompiler :
         { return 0; }
 
     // [G]
-    private: override size_t GetSize() const
+    private: virtual size_t GetSize() const
         { return sizeof(ZeroWidthScanner); }
 
     // [S]

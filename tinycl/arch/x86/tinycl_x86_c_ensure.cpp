@@ -61,7 +61,7 @@ class PassX86Ensure :
     /// <summary>
     ///   An entry point of X86 Ensure pass.
     /// </summary>
-    protected: override void processFunction(Function* pFun)
+    protected: virtual void processFunction(Function* pFun) override
     {
         CLOG_SECTION(1, "<h2>process ~S</h2>", pFun);
 
@@ -270,7 +270,7 @@ class PassX86Ensure :
         m_fChanged = true;
     } // processBoolUser
 
-    private: override void processDefault(Instruction* pI)
+    private: virtual void processDefault(Instruction* pI) override
     {
         if (Bool* const pBd = pI->GetBd())
         {
@@ -451,7 +451,7 @@ class PassX86Ensure :
 
     DefProcI(LogAnd) { ensureRdRx(pI); }
     DefProcI(LogEqv) { unexpected(pI); }
-    DefProcI(LogIOr) { ensureRdRx(pI); }
+    DefProcI(LogIor) { ensureRdRx(pI); }
     DefProcI(LogXor) { ensureRdRx(pI); }
 
     DefProcI(Mul)        { ensureRdRx(pI); }

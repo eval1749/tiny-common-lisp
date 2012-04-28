@@ -610,7 +610,7 @@ class PassAssemble :
 {
     public: static const char* GetName_() { return "Assemble"; }
 
-    protected: override void processModule(Module* pM)
+    protected: virtual void processModule(Module* pM) override
     {
         {
             CLOG_SECTION(1, "<h2>Assemble</h2>~%");

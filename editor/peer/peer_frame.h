@@ -50,22 +50,22 @@ class Frame :
     public: virtual ~Frame();
 
     // [A]
-    public: override Window* AppendChild(Window*);
+    public: virtual Window* AppendChild(Window*) override;
 
     // [C]
-    public: override bool CanClose() const;
+    public: virtual bool CanClose() const override;
 
     // [G]
     public: Container* GetContainer() const;
 
     // [O]
-    private: override int     onCreate(CREATESTRUCT*);
-    private: override void    onDestroy();
-    public:  override bool    OnIdle(uint);
-    private: override LRESULT onMessage(uint, WPARAM, LPARAM);
+    private: virtual int onCreate(CREATESTRUCT*) override;
+    private: virtual void onDestroy() override;
+    public:  virtual bool OnIdle(uint) override;
+    private: virtual LRESULT onMessage(uint, WPARAM, LPARAM) override;
 
     // [R]
-    public: override void Realize(Container*);
+    public: virtual void Realize(Container*) override;
 }; // Frame
 
 } // Peer

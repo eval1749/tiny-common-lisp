@@ -97,7 +97,7 @@ class Assembler : protected Mm
         public: uint GetOffset() const { return m_ofs; }
 
         // [I]
-        public: virtual bool IsCrossing(uint nAddr)
+        public: virtual bool IsCrossing(uint nAddr) const
             { return GetAddr() >= nAddr; }
     }; // Span
 
@@ -262,7 +262,7 @@ class CicsAssembler : public Assembler
             { return m_pTargetBB->GetWork<BBlockExt>()->m_nAddr; }
 
         // [I]
-        public: override bool IsCrossing(uint nAddr) const
+        public: virtual bool IsCrossing(uint nAddr) const override
         {
             if (GetAddr() < nAddr)
             {

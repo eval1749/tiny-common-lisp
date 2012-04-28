@@ -207,10 +207,10 @@ class CheckRequest : public BufferRequest
     public: void End();
 
     // [F]
-    private: override void finishIo();
+    private: virtual void finishIo() override;
 
     // [O]
-    private: override void onEvent(uint)
+    private: virtual void onEvent(uint) override
     {
         openForLoad();
         finishIo();
@@ -236,13 +236,13 @@ class LoadRequest : public BufferRequest
     public:  void End();
 
     // [F]
-    private: override void finishIo();
+    private: virtual void finishIo() override;
 
     // [I]
     private: void insertLine(const char*, const char*);
 
     // [O]
-    private: override void onEvent(uint);
+    private: virtual void onEvent(uint) override;
 
     // [P]
     private: void processLine(const char*, const char*, char);
@@ -278,13 +278,13 @@ class SaveRequest : public BufferRequest
     public: void End();
 
     // [F]
-    private: override void finishIo();
+    private: virtual void finishIo() override;
 
     // [I]
     private: void insertLine(const char*, const char*);
 
     // [O]
-    private: override void onEvent(uint);
+    private: virtual void onEvent(uint) override;
 
     // [R]
     private: void requestWrite(uint);

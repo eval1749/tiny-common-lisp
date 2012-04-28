@@ -32,7 +32,7 @@ class PassTypep :
     /// <summary>
     ///  Pass entry point.
     /// </summary>
-    protected: override void processFunction(Function* pFun)
+    protected: virtual void processFunction(Function* pFun) override
     {
         CLOG(1, "<h3>Process ~S</h3><ol>~%", pFun);
         foreach (Function::EnumBBlock, oEnum, pFun)

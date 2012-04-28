@@ -817,7 +817,7 @@ class PassClean :
     public: PassClean() :
         PassCleanBase(false) {}
 
-    protected: override void processFunction(Function* pFun)
+    protected: virtual void processFunction(Function* pFun) override
         { PassCleanBase::processFunction(pFun); }
 }; // PassClean
 
@@ -830,7 +830,7 @@ class PassFinalClean :
     public: PassFinalClean() :
         PassCleanBase(true) {}
 
-    protected: override void processFunction(Function* pFun)
+    protected: virtual void processFunction(Function* pFun) override
         { PassCleanBase::processFunction(pFun); }
 }; // PassFinalClean
 

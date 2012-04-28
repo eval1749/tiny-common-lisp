@@ -33,7 +33,7 @@ class RootWindow : public Window_<RootWindow, Container>
     } // RootWindow
 
     // [C]
-    public: override bool CanClose() const
+    public: virtual bool CanClose() const override
         { CAN_NOT_HAPPEN(); }
 
     // [E]

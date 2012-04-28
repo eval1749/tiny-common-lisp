@@ -77,8 +77,8 @@ class Container :
     public: Window* GetLastChild()    const { return GetLast(); }
 
     // [O]
-    protected: override int onCreate(CREATESTRUCT*);
-    protected: override LRESULT onMessage(UINT, WPARAM, LPARAM);
+    protected: virtual int onCreate(CREATESTRUCT*) override;
+    protected: virtual LRESULT onMessage(UINT, WPARAM, LPARAM) override;
 
     // [R]
     public: virtual Window* RemoveChild(Window*);

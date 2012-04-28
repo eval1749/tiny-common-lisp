@@ -13,6 +13,16 @@
 
 #pragma once
 
+// warning C4481: nonstandard extension used: override specifier 'override'
+#pragma warning(disable: 4481)
+
+// Ignore new related warning since we manage memory ourselves. 
+// C6211: Leaking memory 'pExt' due to an exception.
+#pragma warning(disable: 6211)
+
+// C6246: Local declaration of 'foo' hides declaration of the same name in outer scope
+#pragma warning(disable: 6246)
+
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0501
 #endif
@@ -60,14 +70,6 @@
 // Theme (Visual Style )
 #include <uxtheme.h>
 #include <tmschema.h>
-
-
-// C6246: Local declaration of 'foo' hides declaration of the same name in outer scope
-#pragma warning(disable: 6246)
-
-// Ignore new related warning since we manage memory ourselves. 
-// C6211: Leaking memory 'pExt' due to an exception.
-#pragma warning(disable: 6211)
 
 #include "../tinycl/z_defs.h"
 #include "../tinycl/z_debug.h"

@@ -14,7 +14,7 @@
 namespace Debugger
 {
 
-void Assert(
+void __fastcall Assert(
     const char* pszFile,
     int         iLine,
     const char* pszFunc,
@@ -36,7 +36,7 @@ void Assert(
     Fail(sz);
 } // Assert
 
-void __declspec(noreturn) CanNotHappen(
+void __declspec(noreturn) __fastcall CanNotHappen(
     const char* pszFile,
     int         iLine,
     const char* pszFunc )
@@ -53,7 +53,7 @@ void __declspec(noreturn) CanNotHappen(
     Fail(sz);
 } // CanNotHappen
 
-void __declspec(noreturn) Fail(const char* psz, ...)
+void __declspec(noreturn) __fastcall Fail(const char* psz, ...)
 {
     va_list args;
     va_start(args, psz);
@@ -64,7 +64,7 @@ void __declspec(noreturn) Fail(const char* psz, ...)
     __debugbreak();
 } // Fail
 
-void Printf(const char* psz, ...)
+void __fastcall Printf(const char* psz, ...)
 {
     va_list args;
     va_start(args, psz);

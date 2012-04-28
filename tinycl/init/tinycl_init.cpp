@@ -59,19 +59,19 @@ Val ImportSymbolString(const char* const psz)
 Val InternSymbol(const char* psz)
     { return intern(ImportSymbolString(psz)); }
 
+class StdMethodCombination :
+    public Instance_<
+        StdMethodCombination,
+        Layout_standard_method_combination >
+{
+    public: static Int Decode_(const Datum* const x)
+    {
+        return Storage::Decode_(x->StaticCast<Instance>()->m_storage);
+    } // Decode_
+}; // StdMethodCombination
+
 static Val makeStandardMethodCombination()
 {
-    class StdMethodCombination :
-        public Instance_<
-            StdMethodCombination,
-            Layout_standard_method_combination >
-    {
-        public: static Int Decode_(const Datum* const x)
-        {
-            return Storage::Decode_(x->StaticCast<Instance>()->m_storage);
-        } // Decode_
-    }; // StdMethodCombination
-
     Val const mc = Thread::Get()->AllocInstance(
         CLASSD_standard_method_combination );
 

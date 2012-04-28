@@ -550,7 +550,7 @@ class PassInline :
     private: WorkList_<Instruction> m_oCalls;
 
     /// <summary>Entry point</summary>
-    protected: override void processModule(Module* pM)
+    protected: virtual void processModule(Module* pM) override
     {
         uint nCount = 0;
         for (;;)

@@ -37,7 +37,7 @@ class TabContainer : public Window_<TabContainer, Container>
     public: ~TabContainer();
 
     // [A]
-    public:  override Window* AppendChild(Window*);
+    public:  virtual Window* AppendChild(Window*) override;
     private: Window* addTab(Window*);
 
     // [C]
@@ -48,13 +48,13 @@ class TabContainer : public Window_<TabContainer, Container>
     private: int     mapWindowToTab(Window*) const;
 
     // [O]
-    private:   override int onCreate(CREATESTRUCT*);
-    public:    override bool OnIdle(uint);
-    protected: override LRESULT onMessage(UINT, WPARAM, LPARAM);
+    private:   virtual int onCreate(CREATESTRUCT*) override;
+    public:    virtual bool OnIdle(uint) override;
+    protected: virtual LRESULT onMessage(UINT, WPARAM, LPARAM) override;
 
     // [R]
-    public: override Window* RemoveChild(Window*);
-    public: override Window* ReplaceChild(Window*, Window*);
+    public: virtual Window* RemoveChild(Window*) override;
+    public: virtual Window* ReplaceChild(Window*, Window*) override;
 }; // TabContainer
 
 } // Peer

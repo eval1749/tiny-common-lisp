@@ -32,6 +32,9 @@
     <Filter Include="lexer">
       <UniqueIdentifier>{117c18d2-fc94-4d48-ad96-4ac81f8dfe11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="support">
+      <UniqueIdentifier>{a1a6279b-e2dc-4ca5-875b-c4740881dbf1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="editor.rc">
@@ -213,9 +216,15 @@
     <ClCompile Include="lexer\lexer_text.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
-    <ClCompile Include="precomp.cpp" />
-    <ClCompile Include="..\tinycl\vcsupport.cpp" />
-    <ClCompile Include="..\tinycl\z_debug.cpp" />
+    <ClCompile Include="precomp.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinycl\vcsupport.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinycl\z_debug.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rtl_defs.h">
@@ -356,11 +365,21 @@
     <ClInclude Include="lexer\lexer_generic.h">
       <Filter>lexer</Filter>
     </ClInclude>
-    <ClInclude Include="precomp.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="..\tinycl\vcsupport.h" />
-    <ClInclude Include="..\tinycl\z_debug.h" />
-    <ClInclude Include="..\tinycl\z_defs.h" />
+    <ClInclude Include="..\tinycl\z_defs.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="precomp.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinycl\vcsupport.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinycl\z_debug.h">
+      <Filter>support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cm_commands.inc">

@@ -91,8 +91,8 @@ class Asm : public Mm
         public: int m_ofs;
 
         // [G]
-        public: int                 GetAddr()   const { return m_nAddr; }
-        public: int                 GetOffset() const { return m_ofs; }
+        public: int GetAddr()   const { return m_nAddr; }
+        public: int GetOffset() const { return m_ofs; }
 
         // [I]
         public: virtual bool IsCrossing(int nAddr) const
@@ -110,7 +110,7 @@ class Asm : public Mm
             Span(nAddr, ofs) {}
 
         // [G]
-        public: override const char* GetKind() const
+        public: virtual const char* GetKind() const override
             { return T::Kind_(); }
 
         // [I]
@@ -149,7 +149,7 @@ class Asm : public Mm
             { return m_pLabel->m_nAddr; }
 
         // [I]
-        public: override bool IsCrossing(int nAddr) const
+        public: virtual bool IsCrossing(int nAddr) const override
         {
             if (m_nAddr < nAddr)
             {

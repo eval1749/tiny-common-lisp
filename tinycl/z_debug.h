@@ -44,10 +44,10 @@
 
 namespace Debugger
 {
-    void Assert(const char*, int, const char*, const char*, bool);
-    void __declspec(noreturn) CanNotHappen(const char*, int, const char*);
-    void __declspec(noreturn) Fail(const char*, ...);
-    void Printf(const char*, ...);
+    void __fastcall Assert(const char*, int, const char*, const char*, bool);
+    void __declspec(noreturn) __fastcall CanNotHappen(const char*, int, const char*);
+    void __declspec(noreturn) __fastcall Fail(const char*, ...);
+    void __fastcall Printf(const char*, ...);
 } // Debugger
 
 #endif //!defined(INCLUDE_common_debugger_h)

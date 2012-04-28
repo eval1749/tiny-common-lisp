@@ -147,7 +147,7 @@ class ChildWindow :
     public: HWND GetHwnd() const { return m_hwnd; }
 
     // [R]
-    protected: override void Render(const Params*) const {}
+    protected: virtual void Render(const Params*) const override {}
 }; // ChildWindow
 
 class Button :
@@ -169,7 +169,7 @@ class Button :
         Base(pNode, pParent) {}
 
     // [R]
-    private: override void Realize(HWND);
+    private: virtual void Realize(HWND) override;
 
     // [S]
     public: void SetDefault(bool);
@@ -194,10 +194,10 @@ class ContainerBox :
     public: virtual Box* AppendBox(Box*) = 0;
 
     // [F]
-    public: override void Finalize() = 0;
+    public: virtual void Finalize() = 0;
 
     // [R]
-    public: override void Realize(HWND);
+    public: virtual void Realize(HWND);
 }; // ContainerBox
 
 class HBox :
@@ -210,13 +210,13 @@ class HBox :
         Base(pNode, pParent) {}
 
     // [A]
-    public: override Box* AppendBox(Box*);
+    public: virtual Box* AppendBox(Box*) override;
 
     // [F]
-    public: override void Finalize();
+    public: virtual void Finalize() override;
 
     // [R]
-    public: override void Render(const Params*) const;
+    public: virtual void Render(const Params*) const override;
 }; // HBox
 
 class VBox :
@@ -231,13 +231,13 @@ class VBox :
     protected: VBox() {}
 
     // [A]
-    public: override Box* AppendBox(Box*);
+    public: virtual Box* AppendBox(Box*) override;
 
     // [F]
-    public: override void Finalize();
+    public: virtual void Finalize() override;
 
     // [R]
-    public: override void Render(const Params*) const;
+    public: virtual void Render(const Params*) const override;
 }; // VBox
 
 class RootBox :
@@ -280,10 +280,10 @@ class RootBox :
     } // Destroy
 
     // [F]
-    public: override void Finalize() {}
+    public: virtual void Finalize() override {}
 
     // [R]
-    public: override void Render(const Params*) const;
+    public: virtual void Render(const Params*) const override;
 }; // RootBox
 
 class Text :
@@ -307,7 +307,7 @@ class Text :
         Base(pNode, pParent) {}
 
     // [R]
-    public: override void Render(const Params*) const;
+    public: virtual void Render(const Params*) const override;
 }; // Text
 
 class TextBox :
@@ -326,7 +326,7 @@ class TextBox :
         Base(pNode, pParent) {}
 
     // [R]
-    private: override void Realize(HWND);
+    private: virtual void Realize(HWND) override;
 }; // TextBox
 
 /// <summary>

@@ -17,14 +17,16 @@ namespace TinyCl
 
 inline char16 CharDowncase(char16 wch)
 {
-    return reinterpret_cast<char16>(
-        ::CharLower(reinterpret_cast<LPWSTR>(wch)) );
+    return static_cast<char16>(
+        reinterpret_cast<intptr_t>(
+            ::CharLower(reinterpret_cast<LPWSTR>(wch))));
 } // CharDowncase
 
 inline char16  CharUpcase(char16 wch)
 {
-    return reinterpret_cast<char16>(
-        ::CharUpper(reinterpret_cast<LPWSTR>(wch)) );
+    return static_cast<char16>(
+        reinterpret_cast<intptr_t>(
+            ::CharUpper(reinterpret_cast<LPWSTR>(wch))));
 } // CharUpcase
 
 static void installExternalFormats()

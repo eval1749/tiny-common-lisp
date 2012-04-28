@@ -168,8 +168,8 @@ bool Mm::Area::IsModified() const
     } // switch scanType
 
     for (
-        uint8* pbRunner = GetTop<uint8>();
-        pbRunner < GetBtm<uint8>();
+        uint8* pbRunner = GetTop_<uint8>();
+        pbRunner < GetBtm_<uint8>();
         pbRunner += cbWatch )
     {
         void* rgpvWritten[16];
@@ -388,7 +388,7 @@ Val Mm::Load(HANDLE hImage)
             break;
         } // switch scanType
 
-        pArea = pArea->GetBtm<Area>();
+        pArea = pArea->GetBtm_<Area>();
     } // while
 
     Thread::Get()->m_n = two;

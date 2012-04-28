@@ -102,9 +102,9 @@ class ClosedMarker :
 
     // [G]
     public: uint GetNth() const { return m_nNth; }
-    protected: override char16 getPrefix() const { return 'c'; }
+    protected: virtual char16 getPrefix() const override { return 'c'; }
 
-    public: override const Type* GetTy() const
+    public: virtual const Type* GetTy() const override
         { return tyT; }
 }; // ClosedMarker
 
@@ -126,11 +126,11 @@ class FunLit :
     public: Function* GetFun() const { return m_pFun; }
 
 
-    public: override const Type* GetTy() const
+    public: virtual const Type* GetTy() const override
         { return GetFun()->GetFunty(); }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // FunLit
 
 /// <summary>
@@ -151,7 +151,7 @@ class TlvOffset :
     public: Val GetTlvRec() const { return m_tlvrec; }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // TlvOffset
 
 /// <summary>
@@ -200,7 +200,7 @@ class Physical :
     public: const RegDesc* GetDesc() const { return m_pRegDesc; }
 
     // [S]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // Physical
 
 class StackSlot :
@@ -226,7 +226,7 @@ class StackSlot :
     public: Variable* GetVar() const { return m_pVar; }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // StackSlot
 
 class ThreadSlot :
@@ -242,7 +242,7 @@ class ThreadSlot :
     } // ThreadSlot
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // ThreadSlot
 
 class Target
@@ -294,7 +294,7 @@ class VarHome :
     public: Variable* GetVar() const { return m_pVar; }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // VarHome
 
 class CopyInstruction :
@@ -306,7 +306,7 @@ class CopyInstruction :
     protected:; CopyInstruction() {}
 
     // [I]
-    public: override bool IsUseless() const;
+    public: virtual bool IsUseless() const override;
 }; // CopyInstruction
 
 // AssignI

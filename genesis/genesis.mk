@@ -31,7 +31,8 @@ clean:
 
 $(image) : $(sources) $(edgen)
     cd $(OutDir)
-    .\tinycl.exe -genesis < genesis.lisp
+    .\console.exe -genesis < genesis.lisp
+    move console.image tinycl.image
 
 
 $(edgen) : $(GenesisDir)\genesis.lisp

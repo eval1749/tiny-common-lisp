@@ -79,7 +79,7 @@ class CompositeBox :
     /// <summary>
     ///   Returns most recently activated window in child boxes.
     /// </summary>
-    private: override Window* ComputeActiveWindow() const
+    private: virtual Window* ComputeActiveWindow() const override
     {
         Window* pActive = NULL;
         foreach (Boxes::Enum, oEnum, this)
@@ -111,7 +111,7 @@ class CompositeBox :
     } // countBoxes
 
     // [D]
-    private: override void Destroy()
+    private: virtual void Destroy() override
     {
         #if DEBUG_RESIZE || DEBUG_SPLIT
             DEBUG_PRINTF("%p beingDestroyed=%d\n",
@@ -127,7 +127,7 @@ class CompositeBox :
     } // Detroy
 
     // [F]
-    private: override Box* FindBox(Window* const pWindow) const
+    private: virtual Box* FindBox(Window* const pWindow) const override
     {
         foreach (Boxes::Enum, oEnum, this)
         {
@@ -140,7 +140,7 @@ class CompositeBox :
     } // FindBox
 
     // [O]
-    private: override bool OnIdle(uint const nCount)
+    private: virtual bool OnIdle(uint const nCount) override
     {
         bool fMore = false;
         foreach (Boxes::Enum, oEnum, this)
@@ -151,7 +151,7 @@ class CompositeBox :
     } // OnIdle
 
     // [R]
-    protected: override void Remove(Box* const pBox)
+    protected: virtual void Remove(Box* const pBox) override
     {
         #if DEBUG_RESIZE || DEBUG_SPLIT
             DEBUG_PRINTF("%p pBox=%p\n", this, pBox);
@@ -171,7 +171,7 @@ class CompositeBox :
         } // if
     } // Remove
 
-    private: override void Realize(Container* const pParent)
+    private: virtual void Realize(Container* const pParent) override
     {
         foreach (Boxes::Enum, oEnum, this)
         {
@@ -179,9 +179,9 @@ class CompositeBox :
         } // for each child
     } // Realize
 
-    private: override void Replace(
+    private: virtual void Replace(
         Box* const pNew, 
-        Box* const pOld )
+        Box* const pOld) override
     {
         foreach (Boxes::Enum, oEnum, this)
         {
@@ -236,9 +236,9 @@ class HSplitBox :
     } /// Draw
 
     // [H]
-    private: override Hit HitTest(
+    private: virtual Hit HitTest(
         POINT const pt, 
-        Box** const out_pBox ) const
+        Box** const out_pBox ) const override
     {
         *out_pBox = NULL;
 
@@ -407,11 +407,11 @@ class LeafBox : public SplitContainer::Box_<LeafBox>
     } // ~LeafBox
 
     // [C]
-    private: override Window* ComputeActiveWindow() const
+    private: virtual Window* ComputeActiveWindow() const override
         { return m_pWindow; }
 
     // [D]
-    private: override void Destroy()
+    private: virtual void Destroy() override
     {
         #if DEBUG_SPLIT
             DEBUG_PRINTF("%p\n", this);
@@ -421,7 +421,7 @@ class LeafBox : public SplitContainer::Box_<LeafBox>
         // At here, this object has been deleted.
     } // Destroy
 
-    private: override void Draw(HDC const hdc) const
+    private: virtual void Draw(HDC const hdc) const override
     {
         if (hasVGrip())
         {
@@ -432,7 +432,7 @@ class LeafBox : public SplitContainer::Box_<LeafBox>
     } // Draw
 
     // [F]
-    private: override Box* FindBox(Window* const pWindow) const
+    private: virtual Box* FindBox(Window* const pWindow) const override
     {
         if (m_pWindow != pWindow)
         {
@@ -469,9 +469,9 @@ class LeafBox : public SplitContainer::Box_<LeafBox>
         return true;
     } // hasVGrip
 
-    private: override Hit HitTest(
+    private: virtual Hit HitTest(
         POINT const pt, 
-        Box** const out_pBox) const
+        Box** const out_pBox) const override
     {
         if (hasVGrip())
         {
@@ -489,11 +489,11 @@ class LeafBox : public SplitContainer::Box_<LeafBox>
     } // HitTest
 
     // [O]
-    private: override bool OnIdle(uint const nCount)
+    private: virtual bool OnIdle(uint const nCount) override
         { return m_pWindow->OnIdle(nCount); }
 
     // [R]
-    public: override void Realize(Container* const pParent)
+    public: virtual void Realize(Container* const pParent) override
     {
         m_pWindow->Realize(pParent);
 
@@ -531,7 +531,7 @@ class LeafBox : public SplitContainer::Box_<LeafBox>
         }
     } // Realize
 
-    public: override void Resize(const Rect* const prc)
+    public: virtual void Resize(const Rect* const prc) override
     {
         #if DEBUG_SPLIT
             DEBUG_PRINTF("%p\n", this);
@@ -612,9 +612,9 @@ class VSplitBox :
     } /// Draw
 
     // [H]
-    private: override Hit HitTest(
+    private: virtual Hit HitTest(
         POINT const pt, 
-        Box** const out_pBox ) const
+        Box** const out_pBox ) const override
     {
         #if DEBUG_CURSOR
             DEBUG_PRINTF("%d@%d (%d,%d)-(%d,%d)\n",
@@ -655,7 +655,7 @@ class VSplitBox :
     } // HitTest
 
     // [R]
-    private: override void Remove(Box* const pBox)
+    private: virtual void Remove(Box* const pBox) override
     {
         ASSERT(pBox->GetParent() == this);
 
@@ -677,7 +677,7 @@ class VSplitBox :
         }
     } // Remove
 
-    private: override void Resize(const Rect* const prc)
+    private: virtual void Resize(const Rect* const prc) override
     {
         int const cyParent = prc->GetHeight()  - m_rc.GetHeight();
 

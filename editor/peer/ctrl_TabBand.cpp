@@ -369,7 +369,7 @@ class CloseButton :
     }; // Constant
 
     // [C]
-    public: override const Rect* ComputeLayout(LayoutContext* pLayout)
+    public: virtual const Rect* ComputeLayout(LayoutContext* pLayout) override
     {
         m_rc = pLayout->m_rc;
 
@@ -392,7 +392,7 @@ class CloseButton :
     } // ComputeLayout
 
     // [D]
-    public: override void DrawNormal(HDC hdc, Font*) const
+    public: virtual void DrawNormal(HDC hdc, Font*) const override
     {
         DcSelect oSelectBrush(hdc, ::GetSysColorBrush(COLOR_BTNTEXT));
 
@@ -418,7 +418,7 @@ class CloseButton :
         ::PatBlt(hdc, xr - 2, y + 7, 2, 1, PATCOPY);
     } // DrawNormal
 
-    public: override void DrawTheme(Gdiplus::Graphics&, Gdiplus::Font*) const;
+    public: virtual void DrawTheme(Gdiplus::Graphics&, Gdiplus::Font*) const override;
 }; // CloseButton
 
 class Drag
@@ -633,7 +633,7 @@ class TabItem :
 
 
     // [C]
-    public: override const Rect* ComputeLayout(LayoutContext* pLayout)
+    public: virtual const Rect* ComputeLayout(LayoutContext* pLayout) override
     {
         m_rc = pLayout->m_rc;
 
@@ -645,7 +645,7 @@ class TabItem :
     } // ComputeLayout
 
     // [D]
-    public: override void DrawNormal(HDC hdc, Font* pFont) const
+    public: virtual void DrawNormal(HDC hdc, Font* pFont) const override
     {
         ::SetBkColor(hdc, ::GetSysColor(COLOR_BTNFACE));
         ::SetTextColor(hdc, ::GetSysColor(COLOR_BTNTEXT));
@@ -735,7 +735,7 @@ class TabItem :
         }
     } // DrawNormal
 
-    public: override void DrawTheme(Gdiplus::Graphics&, Gdiplus::Font*) const;
+    public: virtual void DrawTheme(Gdiplus::Graphics&, Gdiplus::Font*) const override;
 
     // [G]
     public: void GetItem(TCITEM* pItem)
@@ -779,7 +779,7 @@ class TabItem :
         { return m_pwsz; }
 
     // [H]
-    public: override TabElement* HitTest(POINT pt) const
+    public: virtual TabElement* HitTest(POINT pt) const override
     {
         if (TabElement* pElt = Base::HitTest(pt))
         {
@@ -891,7 +891,7 @@ class TabListButton :
     } // ~TabListButton
 
     // [C]
-    public: override const Rect* ComputeLayout(LayoutContext* pLayout)
+    public: virtual const Rect* ComputeLayout(LayoutContext* pLayout) override
     {
         m_rc = pLayout->m_rc;
         if (pLayout->m_fTheme)
@@ -921,7 +921,7 @@ class TabListButton :
     //   11 -w---BBBBB----dB
     //   12 -w----BBB-----dB
     //   13 -w-----B------dB
-    public: override void DrawNormal(HDC hdc, Font*) const
+    public: virtual void DrawNormal(HDC hdc, Font*) const override
     {
         Rect rc = m_rc;
         rc.top += cyMarginTop;
@@ -938,7 +938,7 @@ class TabListButton :
         ::DrawEdge(hdc, &rc, EDGE_RAISED, BF_TOP | BF_LEFT | BF_RIGHT);
     } // DrawNormal
 
-    public: override void DrawTheme(Gdiplus::Graphics&, Gdiplus::Font*) const;
+    public: virtual void DrawTheme(Gdiplus::Graphics&, Gdiplus::Font*) const override;
 
     // [G]
     public: HMENU GetMenu()
@@ -1188,7 +1188,7 @@ class TabBand :
     } // computeLayout
 
     // [D]
-    private: override void DrawNormal(HDC hdc, Font* pFont) const
+    private: virtual void DrawNormal(HDC hdc, Font* pFont) const override
     {
         DcSelect oSelectBrush(hdc, ::GetStockObject(DC_BRUSH));
         DcSelect oSelectFont(hdc, m_oFont);
@@ -1212,7 +1212,7 @@ class TabBand :
     } // DrawNormal
 
     #if USE_GDIPLUS
-    private: override void DrawTheme(Gdiplus::Graphics&, Gdiplus::Font*) const;
+    private: virtual void DrawTheme(Gdiplus::Graphics&, Gdiplus::Font*) const override;
     #endif
 
     // [H]

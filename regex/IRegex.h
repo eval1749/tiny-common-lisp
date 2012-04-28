@@ -82,13 +82,13 @@ struct SourceInfo
     Posn    m_lScanEnd;         // for "$"
 }; // SourceInfo
 
-bool IsAsciiDigitChar(char16);
-bool IsAsciiSpaceChar(char16);
-bool IsAsciiWordChar(char16);
+bool __fastcall IsAsciiDigitChar(char16);
+bool __fastcall IsAsciiSpaceChar(char16);
+bool __fastcall IsAsciiWordChar(char16);
 
-bool IsUnicodeDigitChar(char16);
-bool IsUnicodeSpaceChar(char16);
-bool IsUnicodeWordChar(char16);
+bool __fastcall IsUnicodeDigitChar(char16);
+bool __fastcall IsUnicodeSpaceChar(char16);
+bool __fastcall IsUnicodeWordChar(char16);
 
 /// <remark>
 ///  Interface provides chracter tests and overridable implementation.
@@ -164,9 +164,9 @@ interface IMatchContext : IEnvironment
 
 class IRegex;
 
-IRegex* Compile(ICompileContext*, const char16*, int, int = 0);
-bool    NextMatch(IRegex*, IMatchContext*);
-bool    StartMatch(IRegex*, IMatchContext*);
+IRegex* __fastcall Compile(ICompileContext*, const char16*, int, int = 0);
+bool    __fastcall NextMatch(IRegex*, IMatchContext*);
+bool    __fastcall StartMatch(IRegex*, IMatchContext*);
 
 } // Regex
 

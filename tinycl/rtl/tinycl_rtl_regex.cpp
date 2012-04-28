@@ -49,10 +49,10 @@ class StringMatchContext : public MatchContext
     } // StringMatchContext
 
     // [B]
-    private: override bool BackwardFindCharCi(
+    private: virtual bool BackwardFindCharCi(
         char16  wchFind,
         Posn*   inout_lPosn,
-        Posn    lStop ) const
+        Posn    lStop ) const override
     {
         Posn lPosn = *inout_lPosn;
         while (lPosn > lStop)
@@ -67,10 +67,10 @@ class StringMatchContext : public MatchContext
         return false;
     } // BackwardFindCharCi
 
-    private: override bool BackwardFindCharCs(
+    private: virtual bool BackwardFindCharCs(
         char16  wchFind,
         Posn*   inout_lPosn,
-        Posn    lStop ) const
+        Posn    lStop ) const override
     {
         Posn lPosn = *inout_lPosn;
         while (lPosn >= lStop)
@@ -86,10 +86,10 @@ class StringMatchContext : public MatchContext
     } // BackwardFindCharCs
 
     // [F]
-    private: override bool ForwardFindCharCi(
+    private: virtual bool ForwardFindCharCi(
         char16  wchFind,
         Posn*   inout_lPosn,
-        Posn    lStop ) const
+        Posn    lStop ) const override
     {
         Posn lPosn = *inout_lPosn;
         while (lPosn < lStop)
@@ -104,10 +104,10 @@ class StringMatchContext : public MatchContext
         return false;
     } // ForwardFindCharCs
 
-    private: override bool ForwardFindCharCs(
+    private: virtual bool ForwardFindCharCs(
         char16  wchFind,
         Posn*   inout_lPosn,
-        Posn    lStop ) const
+        Posn    lStop ) const override
     {
         Posn lPosn = *inout_lPosn;
         while (lPosn < lStop)
@@ -123,19 +123,19 @@ class StringMatchContext : public MatchContext
     } // ForwardFindCharCs
 
     // [G]
-    private: override char16 GetChar(Posn lPosn) const
+    private: virtual char16 GetChar(Posn lPosn) const override
     {
         lPosn += m_iOffset;
         ASSERT(m_pwchStart + lPosn < m_pwchEnd);
         return m_pwchStart[lPosn];
     } // GetCatpture
 
-    private: override Posn GetEnd() const
+    private: virtual Posn GetEnd() const override
     {
         return Fixnum::Decode_(m_end);
     } // GetEnd
 
-    private: override void GetInfo(Regex::SourceInfo* p) const
+    private: virtual void GetInfo(Regex::SourceInfo* p) const override
     {
         p->m_lStart = 0;
         p->m_lEnd   = Fixnum::Decode_(length(m_string));
@@ -144,13 +144,13 @@ class StringMatchContext : public MatchContext
         p->m_lScanEnd   = Fixnum::Decode_(m_end);
     } // IMatchContext::GetInfo
 
-    private: override Posn GetStart() const
+    private: virtual Posn GetStart() const override
     {
         return Fixnum::Decode_(m_start);
     } // GetStart
 
     // [S]
-    private: override void SetCapture(int nCapture, Posn lStart, Posn lEnd)
+    private: virtual void SetCapture(int nCapture, Posn lStart, Posn lEnd) override
     {
         ASSERT(lStart <= lEnd);
 
@@ -200,10 +200,10 @@ class StringMatchContext : public MatchContext
         StringData oData(m_string, m_start, m_end);
     } // setup
 
-    private: override bool StringEqCi(
+    private: virtual bool StringEqCi(
         const char16*   pwch,
         int             cwch,
-        Posn            lPosn ) const
+        Posn            lPosn ) const override
     {
         foreach (EnumChar, oEnum, EnumChar::Arg(pwch, cwch))
         {
@@ -216,10 +216,10 @@ class StringMatchContext : public MatchContext
         return true;
     } // StringEqCi
 
-    private: override bool StringEqCs(
+    private: virtual bool StringEqCs(
         const char16*   pwch,
         int             cwch,
-        Posn            lPosn ) const
+        Posn            lPosn ) const override
     {
         foreach (EnumChar, oEnum, EnumChar::Arg(pwch, cwch))
         {
@@ -292,7 +292,7 @@ defun(compile_regexV, (Thread* pth))
             m_error(nil),
             m_posn(nil) {}
 
-        private: override void* AllocRegex(size_t cb, int cCaptures)
+        private: virtual void* AllocRegex(size_t cb, int cCaptures) override
         {
             m_captures = make_vector(Fixnum::Encode(cCaptures + 1));
 
@@ -303,13 +303,13 @@ defun(compile_regexV, (Thread* pth))
             return m_blob->StaticCast<U32Vec>()->GetStart();
         } // Alloc
 
-        private: override bool SetCapture(int iNth, const char16* pwsz)
+        private: virtual bool SetCapture(int iNth, const char16* pwsz) override
         {
             setf_svref(make_string(pwsz), m_captures, Fixnum::Encode(iNth));
             return true;
         } // SetCapture
 
-        private: override void SetError(int nPosn, int nError)
+        private: virtual void SetError(int nPosn, int nError) override
         {
             m_posn  = Fixnum::Encode(nPosn);
             m_error = Fixnum::Encode(nError);

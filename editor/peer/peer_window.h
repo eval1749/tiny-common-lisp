@@ -184,10 +184,10 @@ class Window_ : public B
     protected: Window_() {}
     protected: Window_(Val x) : B(x) {}
 
-    public: override const char* GetKind() const
+    public: virtual const char* GetKind() const override
         { return T::Kind_(); }
 
-    public: override bool Is_(const char* psz) const
+    public: virtual bool Is_(const char* psz) const override
         { return T::Kind_() == psz || B::Is_(psz); }
 }; // Window_
 

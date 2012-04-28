@@ -27,10 +27,10 @@ class CastInstruction :
     public: static const char* Kind_() { return "CastInstruction"; }
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 
     // [O]
-    public: override bool Optimize();
+    public: virtual bool Optimize() override;
 }; // CastInstruction
 
 /// <summary>
@@ -43,10 +43,10 @@ class CastInstruction :
 /// </summary>
 class LastInstruction : public Instruction
 {
-    protected: override bool Verify() const;
+    protected: virtual bool Verify() const override;
 
     // [O]
-    public: override void OnMove(BBlock* const)
+    public: virtual void OnMove(BBlock* const) override
         { CAN_NOT_HAPPEN(); }
 }; // LastInstruction
 
@@ -66,13 +66,13 @@ class TerminateInstruction :
     protected: TerminateInstruction() {}
 
     // [O]
-    public: override void OnMove(BBlock* const);
+    public: virtual void OnMove(BBlock* const) override;
 
     // [R]
-    public: override void Realize();
+    public: virtual void Realize() override;
 
     // [U]
-    public: override void Unrealize();
+    public: virtual void Unrealize() override;
 }; // TerminateInstruction
 
 /// <summary>
@@ -149,7 +149,7 @@ class BoxI :
         { AppendOperand(pRx); }
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 }; // BoxI
 
 /// <summary>
@@ -197,14 +197,14 @@ class BranchI :
         { return GetSy()->StaticCast<Label>()->GetBB(); }
 
     // [O]
-    public: override void OnMove(BBlock* const);
-    public: override bool Optimize();
+    public: virtual void OnMove(BBlock* const) override;
+    public: virtual bool Optimize() override;
 
     // [R]
-    public: override void Realize();
+    public: virtual void Realize() override;
 
     // [U]
-    public: override void Unrealize();
+    public: virtual void Unrealize() override;
 }; // BranchI
 
 // [C]
@@ -265,16 +265,16 @@ class CallI :
     } // CallI
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 
     // [G]
     public: FrameReg* GetFrameReg() const { return m_pFrameReg; }
 
     // [I]
-    public: override bool IsUseless() const;
+    public: virtual bool IsUseless() const override;
 
     // [O]
-    public: override bool Optimize();
+    public: virtual bool Optimize() override;
 
     // [S]
     public: FrameReg* SetFrameReg(FrameReg* p) { return m_pFrameReg = p; }
@@ -293,13 +293,13 @@ class CatchI : public Instruction_<CatchI, Op_Catch>
     } // CatchI
 
     // [I]
-    public: override bool IsUseless() const;
+    public: virtual bool IsUseless() const override;
 
     // [R]
-    public: override void Realize();
+    public: virtual void Realize() override;
 
     // [U]
-    public: override void Unrealize();
+    public: virtual void Unrealize() override;
 }; // CatchI
 
 // CloseI
@@ -311,7 +311,7 @@ class CloseI : public Instruction_<CloseI, Op_Close>
         { AppendOperand(pRx); }
 
     // [I]
-    public: override bool IsUseless() const
+    public: virtual bool IsUseless() const override
         { return NULL == GetSx()->StaticCast<FrameReg>()->GetDefI(); }
 }; // CloseI
 
@@ -354,7 +354,7 @@ class ConvertI : public Instruction_<ConvertI, Op_Convert>
     } // ConvertI
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 }; // ConvertI
 
 // CountI
@@ -365,7 +365,7 @@ class CountI : public Instruction_<CountI, Op_Count>
         { AppendOperand(pVx); }
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 }; // CountI
 
 // [D]
@@ -415,7 +415,7 @@ class EntryI : public Instruction_<EntryI, Op_Entry>
     public: EntryI() :
         Base(GetOp_(), tyVoid, Void) {}
 
-    private: override bool Verify() const;
+    private: virtual bool Verify() const override;
 }; // EntryI
 
 /// <summary>
@@ -500,7 +500,7 @@ class GtI : public Instruction_<GtI, Op_Gt>
     } // GtI
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 }; // GtI
 
 // [I]
@@ -535,13 +535,13 @@ class IfI : public Instruction_<IfI, Op_If>
     } // IfI
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 
     // [I]
     public: bool IsTrueFalse() const;
 
     // [O]
-    public: override bool Optimize();
+    public: virtual bool Optimize() override;
 }; // IfI
 
 // [J]
@@ -562,13 +562,13 @@ class JumpI : public Instruction_<JumpI, Op_Jump, LastInstruction>
         { return GetLabel()->GetBB(); }
 
     // [O]
-    public: override void OnMove(BBlock* const);
+    public: virtual void OnMove(BBlock* const) override;
 
     // [R]
-    public: override void Realize();
+    public: virtual void Realize() override;
 
     // [U]
-    public: override void Unrealize();
+    public: virtual void Unrealize() override;
 }; // JumpI
 
 // [K]
@@ -863,7 +863,7 @@ class MvRestoreI :
     } // MvRestoreI
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 }; // MvRestoreI
 
 // MvSaveI ty %rd <= %vx
@@ -902,7 +902,7 @@ class NeI : public Instruction_<NeI, Op_Ne>
     } // NeI
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 }; // NeI
 
 // NonlocalI ty %rd <=
@@ -937,7 +937,7 @@ class OpenInstruction :
     public: static const char* Kind_() { return "OpenInstruction"; }
 
     // [I]
-    public: override bool IsUseless() const;
+    public: virtual bool IsUseless() const override;
 
     protected: bool isNextClose() const
     {
@@ -949,10 +949,10 @@ class OpenInstruction :
     } // isNextClose
 
     // [R]
-    public: override void Realize();
+    public: virtual void Realize() override;
 
     // [U]
-    public: override void Unrealize();
+    public: virtual void Unrealize() override;
 }; // OpenInstruction
 
 class OpenExitPointInstruction :
@@ -965,10 +965,10 @@ class OpenBlockInstruction :
     public WithCastable_<OpenBlockInstruction, OpenExitPointInstruction>
 {
     // [R]
-    public: override void Realize();
+    public: virtual void Realize() override;
 
     // [U]
-    public: override void Unrealize();
+    public: virtual void Unrealize() override;
 }; // OpenBlockInstruction
 
 class BindOperandBox :
@@ -986,7 +986,7 @@ class BindOperandBox :
     public: Val GetVarCell() const { return m_cell; }
 
     // [H]
-    public: override void HtmlPrint(Val, bool = false) const;
+    public: virtual void HtmlPrint(Val, bool = false) const override;
 }; // BindOperandBox
 
 // OpenBind ty %fd <= name label
@@ -1006,7 +1006,7 @@ class OpenBindI :
     } // AddBind
 
     // [I]
-    public: override bool IsUseless() const
+    public: virtual bool IsUseless() const override
         { return isNextClose(); }
 }; // OpenBindI
 
@@ -1034,7 +1034,7 @@ class OpenCatchI :
     } // OpenCatchI
 
     // [I]
-    public: override bool IsUseless() const
+    public: virtual bool IsUseless() const override
         { return isNextClose(); }
 }; // OpenCatchI
 
@@ -1050,7 +1050,7 @@ class OpenFinallyI :
     } // OpenFinallyI
 
     // [I]
-    public: override bool IsUseless() const
+    public: virtual bool IsUseless() const override
         { return isNextClose(); }
 }; // OpenFinallyI
 
@@ -1063,7 +1063,7 @@ class OpenHandlerI :
         Base(GetOp_(), tyT, pFd) {}
 
     // [I]
-    public: override bool IsUseless() const
+    public: virtual bool IsUseless() const override
         { return isNextClose(); }
 }; // OpenHandlerI
 
@@ -1076,7 +1076,7 @@ class OpenTagsI :
         Base(GetOp_(), tyT, pFd) {}
 
     // No TagDef for this OpenTags
-    public: override bool IsUseless() const
+    public: virtual bool IsUseless() const override
     {
         if (isNextClose()) return true;
         return 0 == GetOutput()->StaticCast<FrameReg>()->m_nCount;
@@ -1092,7 +1092,7 @@ class OpenTryI :
         Base(GetOp_(), tyT, pFd) {}
 
     // No Catch for this OpenTry
-    public: override bool IsUseless() const
+    public: virtual bool IsUseless() const override
     {
         if (isNextClose()) return true;
         return 0 == GetOutput()->StaticCast<FrameReg>()->m_nCount;
@@ -1128,7 +1128,7 @@ class PhiOperandBox :
     public: BBlock* SetBB(BBlock* p) { return m_pBB = p; }
 
     // [H]
-    public: override void HtmlPrint(Val s, bool = false) const
+    public: virtual void HtmlPrint(Val s, bool = false) const override
     {
         cformat(s, "(~S ~S)", GetBB(), GetOperand());
     } // HtmlPrint
@@ -1153,7 +1153,7 @@ class PhiI :
     } // AddInput
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 
     // [F]
     public: PhiOperandBox* FindOperandBox(BBlock* const pBB) const
@@ -1185,10 +1185,10 @@ class PhiI :
         { return GetOperand(pBB)->DynamicCast<Register>(); }
 
     // [O]
-    public: override bool Optimize();
+    public: virtual bool Optimize() override;
 
     // [V]
-    private: override bool Verify() const;
+    private: virtual bool Verify() const override;
 }; // PhiI
 
 // PrologueI label
@@ -1204,7 +1204,7 @@ class PrologueI :
     } // PrologueI
 
     // [I]
-    public: override bool IsUseless() const { return false; }
+    public: virtual bool IsUseless() const override { return false; }
 }; // PrologueI
 
 // [R]
@@ -1235,7 +1235,7 @@ class RetI : public Instruction_<RetI, Op_Ret, TerminateInstruction>
     protected: RetI() {}
 
     // [O]
-    public: override bool Optimize();
+    public: virtual bool Optimize() override;
 }; // RetI
 
 // ReturnFromI %rx %vy
@@ -1300,8 +1300,8 @@ class SelectI :
         AppendOperand(Integer::New(iNth));
     } // SelectI
 
-    public: override Operand* Compute() const;
-    public: override bool Optimize();
+    public: virtual Operand* Compute() const override;
+    public: virtual bool Optimize() override;
 }; // SelectI
 
 /// <summary>
@@ -1485,10 +1485,10 @@ class TagDefI :
     } // TagDefI
 
     // [R]
-    public: override void Realize();
+    public: virtual void Realize() override;
 
     // [U]
-    public: override void Unrealize();
+    public: virtual void Unrealize() override;
 }; // TagDefI
 
 /// <summary>
@@ -1578,7 +1578,7 @@ class TypepI :
     } // TypepI
 
     // [C]
-    public: override Operand* Compute() const;
+    public: virtual Operand* Compute() const override;
 }; // TypepI
 
 // [U]
@@ -1629,7 +1629,7 @@ class UpVarDefI :
         AppendOperand(pVar);
     } // UpVarDefI
 
-    public: override bool IsUseless() const;
+    public: virtual bool IsUseless() const override;
 }; // UpVarDefI
 
 /// <summary>
@@ -1645,7 +1645,7 @@ class UseI :
         Base(GetOp_(), tyVoid, Void)
         { AppendOperand(pRx); }
 
-    public: override bool IsUseless() const;
+    public: virtual bool IsUseless() const override;
 }; // UseI
 
 // [V]
@@ -1684,7 +1684,7 @@ class ValuesI :
         AppendOperand(pSy);
     } // ValuesI
 
-    public: override bool Optimize();
+    public: virtual bool Optimize() override;
 
     private: bool UpdateTy();
 }; // ValuesI
@@ -1704,7 +1704,7 @@ class ValuesAI :
     } // ValuesAI
 
     // [O]
-    public: override bool Optimize();
+    public: virtual bool Optimize() override;
 
     private: bool UpdateTy();
 }; // ValuesAI
@@ -1723,7 +1723,7 @@ class VarDefI :
     } // VarDefI
 
     // [I]
-    public: override bool IsUseless() const;
+    public: virtual bool IsUseless() const override;
 }; // VarDefI
 
 } // Compiler

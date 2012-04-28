@@ -104,10 +104,10 @@ class MatchContext : public Regex::IMatchContext
         { return wch1 == wch2; }
 
     // [G]
-    protected: override bool GetCapture(
+    protected: virtual bool GetCapture(
         int     nCapture,
         Posn*   out_lStart,
-        Posn*   out_lEnd ) const
+        Posn*   out_lEnd ) const override
     {
         Val  range = svref(m_captures, Fixnum::Encode(nCapture));
         if (nil == range)
@@ -124,12 +124,12 @@ class MatchContext : public Regex::IMatchContext
     } // GetCapture
 
     // [R]
-    private: override void ResetCapture(int nCapture)
+    private: virtual void ResetCapture(int nCapture) override
     {
         setf_svref(nil, m_captures, Fixnum::Encode(nCapture));
     } // ResetCapture
 
-    private: override void ResetCaptures()
+    private: virtual void ResetCaptures() override
     {
         SimpleVector* p = m_captures->StaticCast<SimpleVector>();
         foreach (SimpleVector::Enum, oEnum, p)

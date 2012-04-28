@@ -114,7 +114,7 @@ class PassRuntimeCast :
     /// <summary>
     ///  Pass entry point.
     /// </summary>
-    protected: override void processFunction(Function* pFun)
+    protected: virtual void processFunction(Function* pFun) override
     {
         CLOG_SECTION(1, "<h3>Process ~S</h3>", pFun);
 

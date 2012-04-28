@@ -121,8 +121,8 @@ class RsArea : public Mm::Area
 
         public: EnumEntry(const RsArea* p) :
             m_cb(p->m_ofsFree - sizeof(Area)),
-            m_pBtm(p->GetBtm<Entry>()),
-            m_p(p->GetTop<Entry>() - 1)
+            m_pBtm(p->GetBtm_<Entry>()),
+            m_p(p->GetTop_<Entry>() - 1)
         {
             if (! AtEnd()) Next();
         } // EnumEntry
@@ -145,8 +145,8 @@ class RsArea : public Mm::Area
     // [G]
     public: const Entry* Get(Val x) const
     {
-        Entry* pTop = GetTop<Entry>();
-        Entry* pBtm = GetBtm<Entry>();
+        Entry* pTop = GetTop_<Entry>();
+        Entry* pBtm = GetBtm_<Entry>();
         Entry* pStart = pTop + hash(x) % (pBtm - pTop);
         Entry* pRunner = pStart;
         do
@@ -175,8 +175,8 @@ class RsArea : public Mm::Area
     // [P]
     public: void Put(Val x)
     {
-        Entry* pTop = GetTop<Entry>();
-        Entry* pBtm = GetBtm<Entry>();
+        Entry* pTop = GetTop_<Entry>();
+        Entry* pBtm = GetBtm_<Entry>();
         Entry* pStart = pTop + hash(x) % (pBtm - pTop);
         Entry* pRunner = pStart;
         do
@@ -296,8 +296,8 @@ class Checker : protected Gc
             case Area::ScanType_Record:
                 checkRange(
                     pArea->GetAge(),
-                    pArea->GetTop<Val>(),
-                    pArea->GetFree<Val>() );
+                    pArea->GetTop_<Val>(),
+                    pArea->GetFree_<Val>() );
                 break;
             } // switch scanType
         } // for each area
@@ -676,7 +676,7 @@ class FromSpace : protected Gc
 
         if (Area* pLast = sm_oFreeAreas.GetFirst())
         {
-            if (pLast->GetBtm<Area>() == pArea)
+            if (pLast->GetBtm_<Area>() == pArea)
             {
                 // Merge to previous
                 pLast->m_cbArea += pArea->m_cbArea;
@@ -1117,7 +1117,7 @@ bool Gc::scanArea(Area* pArea)
         do
         {
             size_t ofsScanEnd = pArea->m_ofsFree;
-            scanRange(iAge, pArea->GetScan<Val>(), pArea->GetFree<Val>());
+            scanRange(iAge, pArea->GetScan_<Val>(), pArea->GetFree_<Val>());
             pArea->m_ofsScan = ofsScanEnd;
         } while (pArea->m_ofsScan != pArea->m_ofsFree);
         break;
@@ -1249,8 +1249,8 @@ void Gc::UpdateRs()
         Area* pArea = oEnum.Get();
         int iAge = pArea->GetAge();
         for (
-            Val* p = pArea->GetTop<Val>();
-            p < pArea->GetFree<Val>();
+            Val* p = pArea->GetTop_<Val>();
+            p < pArea->GetFree_<Val>();
             p++ )
         {
             remember(iAge, p);
@@ -1262,8 +1262,8 @@ void Gc::UpdateRs()
         Area* pArea = oEnum.Get();
         int iAge = pArea->GetAge();
         for (
-            Val* p = pArea->GetTop<Val>();
-            p < pArea->GetFree<Val>();
+            Val* p = pArea->GetTop_<Val>();
+            p < pArea->GetFree_<Val>();
             p++ )
         {
             remember(iAge, p);

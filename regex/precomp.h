@@ -13,11 +13,16 @@
 
 #pragma once
 
+#pragma warning(disable: 4481)
+#pragma warning(disable: 4627)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+
 #define _WIN32_WINNT 0x0501
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include "./regex_defs.h"
+#include "../regex/regex_defs.h"
 
 #if NDEBUG
 

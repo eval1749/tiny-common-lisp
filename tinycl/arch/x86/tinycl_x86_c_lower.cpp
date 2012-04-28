@@ -127,7 +127,7 @@ class PassX86Lower :
     private: WorkList_<Instruction> m_oParseKeys;
 
     /// <summary>Entry point</summary>
-    protected: override void processFunction(Function* pFun)
+    protected: virtual void processFunction(Function* pFun) override
     {
         CLOG(1, "<h2>process ~S</h2>~%", pFun);
 
@@ -608,7 +608,7 @@ class PassX86Lower :
     /// <summary>
     ///   Lower (logeqv x y) = (lognot (logxor x y))
     /// </summary>
-    DefProcI(Eqv)
+    DefProcI(LogEqv)
     {
         Register* const pR1 = new Register;
 

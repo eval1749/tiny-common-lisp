@@ -23,7 +23,7 @@ class PassArity :
     public: static const char* GetName_() { return "Arity"; }
 
     // Entry point
-    protected: override void processModule(Module* pM)
+    protected: virtual void processModule(Module* pM) override
     {
         CLOG(1, "<ol>~%");
         foreach (Module::EnumFunction, oEnum, pM)

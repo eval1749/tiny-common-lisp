@@ -31,7 +31,6 @@ typedef __w64 unsigned int UInt;
     for (mp_enum mp_var(mp_arg); ! (mp_var).AtEnd(); (mp_var).Next())
 
 #define lengthof(a) ( sizeof(a) / sizeof(*(a)) )
-#define override virtual
 #define unless(mp_expr) if (! (mp_expr) )
 #define when(mp_expr) if ((mp_expr))
 
@@ -44,5 +43,9 @@ void swap(T& rx, T& ry)
     rx = ry;
     ry = temp;
 } // swap
+
+#define DISALLOW_COPY_AND_ASSIGN(mp_type) \
+  private: mp_type(const mp_type&); \
+  private: void operator=(const mp_type&)
 
 #endif //!defined(INCLUDE_z_defs_h)

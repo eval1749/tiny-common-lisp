@@ -1185,7 +1185,7 @@ class PassUpVar :
     public: static const char* GetName_() { return "UpVar"; }
 
     // Entry Point
-    private: override void processModule(Module* pM)
+    private: virtual void processModule(Module* pM) override
     {
         analyze(pM);
 

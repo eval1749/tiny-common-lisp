@@ -135,7 +135,7 @@ class X86Target : public Target
     } // X86Target
 
     // [C]
-    public: override int ComputeFrameSize(FrameReg* pFd) const
+    public: virtual int ComputeFrameSize(FrameReg* pFd) const override
     {
         if (nil == pFd->GetFrameKind())
         {
@@ -211,7 +211,7 @@ class X86Target : public Target
     } // ComputeFrameSize
 
     // [G]
-    public: override CgOutput* GetArgReg(uint nNth)
+    public: virtual CgOutput* GetArgReg(uint nNth) override
     {
         const RegSet* pArgRegs = s_oGprGroup.m_pArgs;
         if (nNth < static_cast<uint>(pArgRegs->m_c))
@@ -238,7 +238,7 @@ class X86Target : public Target
         return pMx;
     } // GetArgReg
 
-    public: override Physical* GetPhysical(const RegDesc* pRegDesc)
+    public: virtual Physical* GetPhysical(const RegDesc* pRegDesc) override
     {
         uint nIndex = pRegDesc->m_nId;
         Physical* pRx = m_rgpPhysical[nIndex];

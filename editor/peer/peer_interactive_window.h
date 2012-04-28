@@ -37,8 +37,8 @@ class InteractiveWindow :
     // [O]
     protected: int              onCreate(CREATESTRUCT*);
     private:   void             onDropFiles(HDROP, uint);
-    protected: override LRESULT onMessage(uint, WPARAM, LPARAM);
-    protected: virtual void     onSetFocus() {}
+    protected: virtual LRESULT onMessage(uint, WPARAM, LPARAM) override;
+    protected: virtual void onSetFocus() {}
 }; // InteractiveWindow
 
 } // Peer

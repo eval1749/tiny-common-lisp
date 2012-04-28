@@ -18,14 +18,14 @@
     #define REPORT_HRESULT      __noop
     #define REPORT_WIN32_ERROR  (void)
     #define VERIFY(mp_exp)      __assume(mp_exp)
-    #define CanNotHappen() \
+    #define CAN_NOT_HAPPEN() \
         Debugger::CanNotHappen(__FILE__, __LINE__, __FUNCTION__)
 
 #else // ! defined(_DEBUG)
     #define ASSERT(mp_exp) \
         Debugger::Assert(__FILE__, __LINE__, __FUNCTION__, #mp_exp, mp_exp)
 
-    #define CanNotHappen() \
+    #define CAN_NOT_HAPPEN() \
         Debugger::CanNotHappen(__FILE__, __LINE__, __FUNCTION__)
 
     #define DEBUG_PRINTF \
@@ -52,11 +52,11 @@
 
 namespace Debugger
 {
-    void Assert(LPCSTR, int, LPCSTR, LPCSTR, bool);
-    void __declspec(noreturn) CanNotHappen(LPCSTR, int, LPCSTR);
-    void __declspec(noreturn) Fail(LPCWSTR, ...);
-    void Printf(LPCWSTR, ...);
-    void PrintHeader(LPCSTR);
+void __fastcall Assert(LPCSTR, int, LPCSTR, LPCSTR, bool);
+void __declspec(noreturn) __fastcall CanNotHappen(LPCSTR, int, LPCSTR);
+void __declspec(noreturn) __fastcall Fail(LPCSTR, ...);
+void __fastcall Printf(LPCSTR, ...);
+void __fastcall PrintHeader(LPCSTR);
 } // Debugger
 
 namespace Kernel

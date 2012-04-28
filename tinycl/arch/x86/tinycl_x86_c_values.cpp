@@ -59,7 +59,7 @@ class PassX86Values :
     private: typedef void (*RewriteFn)(Instruction*);
 
     /// <summary>Entry point</summary>
-    protected: override void processFunction(Function* pFun)
+    protected: virtual void processFunction(Function* pFun) override
     {
         CLOG_SECTION(1, "<h2>process ~S</h2>", pFun);
 

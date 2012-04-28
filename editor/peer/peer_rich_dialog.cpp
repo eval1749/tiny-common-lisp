@@ -523,7 +523,7 @@ int RichDialog::onCreate(CREATESTRUCT*)
             return m_pButton->GetHwnd();
         } // GetButton
 
-        protected: override bool onVisit(RichView::Render::Box* pBox)
+        protected: virtual bool onVisit(RichView::Render::Box* pBox) override
         {
             if (RichView::Render::TextBox* pTextBox =
                     pBox->DynamicCast<RichView::Render::TextBox>() )

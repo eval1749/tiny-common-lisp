@@ -324,12 +324,12 @@ class SubPassCompute :
     } // isSetArityI
 
     // [P]
-    protected: override void processKill(int const k)
+    protected: virtual void processKill(int const k) override
     {
         m_pBB->SetKill(k);
     } // processKill
 
-    protected: override void processUse(int const k)
+    protected: virtual void processUse(int const k) override
     {
         if (! m_pBB->IsKill(k))
         {
@@ -349,7 +349,7 @@ class SubPassCompute :
     //
     // Instructions
     //
-    private: override void processDefault(Instruction* pI)
+    private: virtual void processDefault(Instruction* pI) override
     {
         if (needGc(pI))
         {
@@ -399,6 +399,8 @@ class SubPassCompute :
     } // Prologue
 
     DefProcI(Use) { processUseI(pI); }
+
+    DISALLOW_COPY_AND_ASSIGN(SubPassCompute);
 }; // SubPassCompute
 
 class Sink
@@ -845,13 +847,13 @@ class SubPassSerialize :
     } // Run
 
     // [P]
-    protected: override void processKill(int const k)
+    protected: virtual void processKill(int const k) override
     {
         ASSERT(k > 0);
         m_pLive->SetZero(k);
     } // processKill
 
-    protected: override void processUse(int const k)
+    protected: virtual void processUse(int const k) override
     {
         ASSERT(k > 0);
         m_pLive->SetOne(k);
@@ -901,7 +903,7 @@ class SubPassSerialize :
     //
     // Instructions
     //
-    private: override void processDefault(Instruction* pI)
+    private: virtual void processDefault(Instruction* pI) override
     {
         processOutput(pI);
 
@@ -994,6 +996,8 @@ class SubPassSerialize :
     } // Jump
 
     DefProcI(Use) { processUseI(pI); }
+
+    DISALLOW_COPY_AND_ASSIGN(SubPassSerialize);
 }; // SubPassSerialize
 
 } // GcMapCtor

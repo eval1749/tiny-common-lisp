@@ -105,9 +105,9 @@ class SxHashTable : public SxHashArea
 
         public: EnumAll(SxHashTable* p) :
             m_p(p),
-            m_pBtm(p->GetBtm<Entry>()),
-            m_pRunner(p->GetTop<Entry>()),
-            m_pTop(p->GetTop<Entry>()) {}
+            m_pBtm(p->GetBtm_<Entry>()),
+            m_pRunner(p->GetTop_<Entry>()),
+            m_pTop(p->GetTop_<Entry>()) {}
 
         public: bool AtEnd() const
             { return m_pRunner >= m_pBtm; }
@@ -198,11 +198,11 @@ class SxHashTable : public SxHashArea
 
         public: EnumWrap(Arg oArg) :
             m_fWrap(false),
-            m_pBtm(oArg.m_p->GetBtm<Entry>()),
+            m_pBtm(oArg.m_p->GetBtm_<Entry>()),
             m_pRunner(
-                oArg.m_p->GetTop<Entry>() +
+                oArg.m_p->GetTop_<Entry>() +
                 hash(oArg.m_key) % oArg.m_p->GetSize() ),
-            m_pTop(oArg.m_p->GetTop<Entry>())
+            m_pTop(oArg.m_p->GetTop_<Entry>())
         {
             m_pStart = m_pRunner;
         } // EnumWrap
@@ -227,8 +227,8 @@ class SxHashTable : public SxHashArea
     // [A]
     private: Val addEntry(Entry* pEntry, Val key, Val val)
     {
-        ASSERT(pEntry >= GetTop<Entry>());
-        ASSERT(pEntry < GetBtm<Entry>());
+        ASSERT(pEntry >= GetTop_<Entry>());
+        ASSERT(pEntry < GetBtm_<Entry>());
         ASSERT(m_ofsFree + sizeof(Entry) <= m_cbArea);
         m_ofsFree += sizeof(Entry);
         return pEntry->SetEntry(key, val);
@@ -251,25 +251,25 @@ class SxHashTable : public SxHashArea
 
     private: Entry* computeNextEntry(Entry* pEntry)
     {
-        ASSERT(pEntry >= GetTop<Entry>());
-        ASSERT(pEntry < GetBtm<Entry>());
+        ASSERT(pEntry >= GetTop_<Entry>());
+        ASSERT(pEntry < GetBtm_<Entry>());
 
         pEntry++;
-        if (pEntry >= GetBtm<Entry>())
+        if (pEntry >= GetBtm_<Entry>())
         {
-            pEntry = GetTop<Entry>();
+            pEntry = GetTop_<Entry>();
         }
         return pEntry;
     } // computeNextEntry
 
     private: Entry* computePrevEntry(Entry* pEntry)
     {
-        ASSERT(pEntry >= GetTop<Entry>());
-        ASSERT(pEntry < GetBtm<Entry>());
+        ASSERT(pEntry >= GetTop_<Entry>());
+        ASSERT(pEntry < GetBtm_<Entry>());
 
-        if (pEntry <= GetTop<Entry>())
+        if (pEntry <= GetTop_<Entry>())
         {
-            pEntry = GetBtm<Entry>();
+            pEntry = GetBtm_<Entry>();
         }
         --pEntry;
         return pEntry;
@@ -316,12 +316,12 @@ class SxHashTable : public SxHashArea
 
     public: uint GetCount() const
     {
-        return static_cast<uint>(GetFree<Entry>() - GetTop<Entry>());
+        return static_cast<uint>(GetFree<Entry>() - GetTop_<Entry>());
     } // GetCount
 
     public: uint GetSize() const
     {
-        return static_cast<uint>(GetBtm<Entry>() - GetTop<Entry>());
+        return static_cast<uint>(GetBtm_<Entry>() - GetTop_<Entry>());
     } // GetSize
 
     // [H]
@@ -389,8 +389,8 @@ class SxHashTable : public SxHashArea
 
     private: void removeEntry(Entry* pEntry)
     {
-        ASSERT(pEntry >= GetTop<Entry>());
-        ASSERT(pEntry < GetBtm<Entry>());
+        ASSERT(pEntry >= GetTop_<Entry>());
+        ASSERT(pEntry < GetBtm_<Entry>());
 
         ASSERT(m_ofsFree >= sizeof(Area) + sizeof(Entry));
         m_ofsFree -= sizeof(Entry);

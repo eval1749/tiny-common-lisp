@@ -97,7 +97,7 @@ class Body :
 {
     public: static const char* Kind_() { return "Body"; }
 
-    private: override void Format(Context*) const;
+    private: virtual void Format(Context*) const override;
 }; // Body
 
 class Br :
@@ -106,7 +106,7 @@ class Br :
     public: static const char* Kind_() { return "Text"; }
 
     // [F]
-    private: override void Format(Context*) const;
+    private: virtual void Format(Context*) const override;
 }; // Br
 
 class Button :
@@ -118,7 +118,7 @@ class Button :
     public: Button(uint nId) { Control::init(nId); }
 
     // [F]
-    private: override void Format(Context*) const;
+    private: virtual void Format(Context*) const override;
 }; // Button
 
 // [T]
@@ -149,7 +149,7 @@ class Text :
     public: ~Text() { delete[] m_pwch; }
 
     // [F]
-    private: override void Format(Context*) const;
+    private: virtual void Format(Context*) const override;
 
     // [G]
     public: uint          GetLength() const { return m_cwch; }
@@ -172,7 +172,7 @@ class TextBox :
     } // TextBox
 
     // [F]
-    private: override void Format(Context*) const;
+    private: virtual void Format(Context*) const override;
 }; // TextBox
 
 } // Markup

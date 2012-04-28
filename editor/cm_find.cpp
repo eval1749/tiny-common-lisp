@@ -56,7 +56,7 @@ defcommand(find_or_replace)
             m_pSelection(pSelection),
             Peer::RichDialog(p) {}
 
-        private: override void onCommand(uint nCtrlId, uint nNotify)
+        private: virtual void onCommand(uint nCtrlId, uint nNotify) override
         {
             switch (nCtrlId)
             {
@@ -193,7 +193,7 @@ defcommand(goto_line)
             m_pSelection(pSelection),
             Peer::RichDialog(p) {}
 
-        private: override void onCommand(uint nCtrlId, uint nNotify)
+        private: virtual void onCommand(uint nCtrlId, uint nNotify) override
         {
             switch (nCtrlId)
             {

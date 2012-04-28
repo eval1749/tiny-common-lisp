@@ -13,6 +13,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gendef", "tinycl\gendef.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "genesis", "genesis\genesis.vcxproj", "{C9BF7958-BDC7-4643-9F45-FC91A1A2ECD6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "regex_test", "regex\regex_test.vcxproj", "{A231D933-1223-417A-92E5-7EBD0B5C3CC1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF811653-B705-45FC-9B2A-AB680D99DDBD} = {FF811653-B705-45FC-9B2A-AB680D99DDBD}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -57,6 +62,12 @@ Global
 		{C9BF7958-BDC7-4643-9F45-FC91A1A2ECD6}.Release|Win32.ActiveCfg = Release|Win32
 		{C9BF7958-BDC7-4643-9F45-FC91A1A2ECD6}.Release|Win32.Build.0 = Release|Win32
 		{C9BF7958-BDC7-4643-9F45-FC91A1A2ECD6}.Release|x64.ActiveCfg = Release|Win32
+		{A231D933-1223-417A-92E5-7EBD0B5C3CC1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A231D933-1223-417A-92E5-7EBD0B5C3CC1}.Debug|Win32.Build.0 = Debug|Win32
+		{A231D933-1223-417A-92E5-7EBD0B5C3CC1}.Debug|x64.ActiveCfg = Debug|Win32
+		{A231D933-1223-417A-92E5-7EBD0B5C3CC1}.Release|Win32.ActiveCfg = Release|Win32
+		{A231D933-1223-417A-92E5-7EBD0B5C3CC1}.Release|Win32.Build.0 = Release|Win32
+		{A231D933-1223-417A-92E5-7EBD0B5C3CC1}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

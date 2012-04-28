@@ -175,9 +175,9 @@ class Mm
             private: CodeObject*    m_pStart;
 
             public: EnumCode(const Area* p) :
-                m_pCurr(p->GetTop<CodeObject>()),
-                m_pEnd(p->GetFree<CodeObject>()),
-                m_pStart(p->GetTop<CodeObject>()) {}
+                m_pCurr(p->GetTop_<CodeObject>()),
+                m_pEnd(p->GetFree_<CodeObject>()),
+                m_pStart(p->GetTop_<CodeObject>()) {}
 
             public: bool AtEnd() const
                 { return m_pCurr >= m_pEnd; }
@@ -195,14 +195,14 @@ class Mm
             private: Record*    m_pStart;
 
             public: EnumRecord(const Area* p) :
-                m_pCurr(p->GetTop<Record>()),
-                m_pEnd(p->GetFree<Record>()),
-                m_pStart(p->GetTop<Record>()) {}
+                m_pCurr(p->GetTop_<Record>()),
+                m_pEnd(p->GetFree_<Record>()),
+                m_pStart(p->GetTop_<Record>()) {}
 
             public: bool AtEnd() const
                 { return m_pCurr >= m_pEnd; }
 
-            public: Record* Get()   const
+            public: Record* Get() const
                 { ASSERT(!AtEnd()); return m_pCurr; }
 
             public: void Next();
@@ -212,16 +212,16 @@ class Mm
         public: int GetAge() const
             { return m_nFlags & Flags_AgeMask; }
 
-        public: template<typename T> T* GetBtm() const
+        public: template<typename T> T* GetBtm_() const
             { return reinterpret_cast<T*>(ToInt() + m_cbArea); }
 
         public: size_t GetFreeSize() const
             { return m_cbArea - m_ofsFree; }
 
-        public: template<typename T> T* GetFree() const
+        public: template<typename T> T* GetFree_() const
             { return reinterpret_cast<T*>(ToInt() + m_ofsFree); }
 
-        public: template<typename T> T* GetScan() const
+        public: template<typename T> T* GetScan_() const
             { return reinterpret_cast<T*>(ToInt() + m_ofsScan); }
 
         public: Scan GetScan() const
@@ -255,7 +255,7 @@ class Mm
             return k_rgpszScanType[GetScan()];
         } // GetString
 
-        public: template<typename T> T* GetTop() const
+        public: template<typename T> T* GetTop_() const
             { return reinterpret_cast<T*>(ToInt() + sizeof(Area)); }
 
         // [I]

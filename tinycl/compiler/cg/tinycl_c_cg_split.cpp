@@ -208,7 +208,7 @@ class PassSplitClosure :
 {
     public: static const char* GetName_() { return "SplitClosure"; }
 
-    private: override void processModule(Module* pM)
+    private: virtual void processModule(Module* pM) override
     {
         WorkList_<Function> oFuns;
         foreach (Module::EnumFunction, oEnum, pM)

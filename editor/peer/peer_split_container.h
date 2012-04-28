@@ -99,10 +99,10 @@ class SplitContainer : public Window_<SplitContainer, Container>
     {
         protected: typedef Box_<T, B> Super;
 
-        public: override const char* GetKind() const
+        public: virtual const char* GetKind() const
             { return T::Kind_(); }
 
-        public: override bool Is_(const char* psz) const
+        public: virtual bool Is_(const char* psz) const
             { return T::Kind_() == psz || B::Is_(psz); }
     }; // Box_
 
@@ -144,7 +144,7 @@ class SplitContainer : public Window_<SplitContainer, Container>
         } // ~RootBox
 
         // [C]
-        public: override Window* ComputeActiveWindow() const
+        public: virtual Window* ComputeActiveWindow() const override
          {
             if (Box* const pBox = GetFirst())
             {
@@ -154,7 +154,7 @@ class SplitContainer : public Window_<SplitContainer, Container>
         } // ComputeActiveWindow
 
         // [D]
-        public: override void Destroy()
+        public: virtual void Destroy() override
         {
             if (Box* const pBox = GetFirst())
             {
@@ -162,7 +162,7 @@ class SplitContainer : public Window_<SplitContainer, Container>
             }
         } // Destroy
 
-        public: override void Draw(HDC const hdc) const
+        public: virtual void Draw(HDC const hdc) const override
         {
             if (Box* const pBox = GetFirst())
             {
@@ -171,7 +171,7 @@ class SplitContainer : public Window_<SplitContainer, Container>
         } // Draw
 
         // [F]
-        public: override Box* FindBox(Window* const pWindow) const
+        public: virtual Box* FindBox(Window* const pWindow) const override
         {
             if (Box* const pBox = GetFirst())
             {
@@ -204,7 +204,7 @@ class SplitContainer : public Window_<SplitContainer, Container>
         } // HitTest
 
         // [O]
-        public: override bool OnIdle(uint const nCount)
+        public: virtual bool OnIdle(uint const nCount) override
         {
             if (Box* const pBox = GetFirst())
             {
@@ -228,7 +228,7 @@ class SplitContainer : public Window_<SplitContainer, Container>
             Delete(pBox);
         } // Remove
         
-        public: override void Replace(Box* const pNew, Box* const pOld)
+        public: virtual void Replace(Box* const pNew, Box* const pOld) override
         {
             ASSERT(GetFirst() == pOld);
             Boxes::Replace(pNew, pOld);
@@ -328,7 +328,7 @@ class SplitContainer : public Window_<SplitContainer, Container>
     public: ~SplitContainer();
 
     // [A]
-    public: override Window* AppendChild(Window*);
+    public: virtual Window* AppendChild(Window*) override;
 
     // [D]
     protected: void drawSplitters()
@@ -343,10 +343,10 @@ class SplitContainer : public Window_<SplitContainer, Container>
     public: bool OnIdle(uint nCount)
         { return m_oRootBox.OnIdle(nCount); }
 
-    protected: override LRESULT onMessage(UINT, WPARAM, LPARAM);
+    protected: virtual LRESULT onMessage(UINT, WPARAM, LPARAM) override;
 
     // [R]
-    public: override Window* RemoveChild(Window*);
+    public: virtual Window* RemoveChild(Window*) override;
 
     // [S]
     public: bool SplitHorizontally(
