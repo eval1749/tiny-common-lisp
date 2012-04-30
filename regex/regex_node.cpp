@@ -136,16 +136,16 @@ Node* NodeAnd::Simplify(IEnvironment* pIEnv, LocalHeap* pHeap)
 
 //////////////////////////////////////////////////////////////////////
 //
-// NodeChar::IsMember
+// NodeChar::IsCharSetMember
 //
-bool NodeChar::IsMember(IEnvironment* pIEnv, char16 wch) const
+bool NodeChar::IsCharSetMember(IEnvironment* pIEnv, char16 wch) const
 {
-    if (GetChar() == wch) return ! m_fNot;
-    unless (IsIgnoreCase()) return m_fNot;
+    if (GetChar() == wch) return ! IsNot();
+    unless (IsIgnoreCase()) return IsNot();
     wch = pIEnv->CharUpcase(wch);
-    if (GetChar() == wch) return ! m_fNot;
+    if (GetChar() == wch) return ! IsNot();
     return false;
-} // NodeChar::IsMember
+} // NodeChar::IsCharSetMember
 
 
 //////////////////////////////////////////////////////////////////////
@@ -156,8 +156,10 @@ Node* NodeChar::Simplify(IEnvironment* pIEnv, LocalHeap*)
 {
     if (IsIgnoreCase())
     {
-        m_eCase = pIEnv->IsBothCase(m_wch) ? CaseInsensitive : CaseSensitive;
-        if (IsIgnoreCase()) m_wch = pIEnv->CharUpcase(m_wch);
+        set_case_sensivity(pIEnv->IsBothCase(char_) ? CaseInsensitive : CaseSensitive);
+        if (IsIgnoreCase()) {
+            char_ = pIEnv->CharUpcase(char_);
+        }
     }
 
     return this;
@@ -214,7 +216,7 @@ Node* NodeCharClass::Simplify(IEnvironment* pIEnv, LocalHeap* pHeap)
     {
         NodeChar* pNode = oEnum.Get()->StaticCast<NodeChar>();
         char16 wch = pNode->GetChar();
-        if (! IsMember(pIEnv, wch)) 
+        if (! IsCharSetMember(pIEnv, wch)) 
         {
             oSink.Add(wch);
         }
@@ -223,12 +225,12 @@ Node* NodeCharClass::Simplify(IEnvironment* pIEnv, LocalHeap* pHeap)
         {
             char16 wchU = pIEnv->CharUpcase(wch);
             char16 wchD = pIEnv->CharDowncase(wch);
-            if (wch != wchU && ! IsMember(pIEnv, wchU))
+            if (wch != wchU && ! IsCharSetMember(pIEnv, wchU))
             {
                 oSink.Add(wch);
             }
 
-            if (wch != wchD && ! IsMember(pIEnv, wchD))
+            if (wch != wchD && ! IsCharSetMember(pIEnv, wchD))
             {
                 oSink.Add(wch);
             }
@@ -278,9 +280,9 @@ int NodeIf::ComputeMinLength() const
 
 //////////////////////////////////////////////////////////////////////
 //
-// NodeOneWidth::IsMember
+// NodeOneWidth::IsCharSetMember
 //
-bool NodeOneWidth::IsMember(IEnvironment* pIEnv, char16 wch) const
+bool NodeOneWidth::IsCharSetMember(IEnvironment* pIEnv, char16 wch) const
 {
     #define case_Op_(mp_name) \
         case Op_Ascii ## mp_name ## Eq_B: \
@@ -306,7 +308,7 @@ bool NodeOneWidth::IsMember(IEnvironment* pIEnv, char16 wch) const
     } // switch op
 
     #undef case_Op_
-} // NodeOneWidth::IsMember
+} // NodeOneWidth::IsCharSetMember
 
 /// <summary>
 ///   Not operation.
@@ -355,18 +357,18 @@ Node* NodeOneWidth::Not()
 
 //////////////////////////////////////////////////////////////////////
 //
-// NodeRange::IsMember
+// NodeRange::IsCharSetMember
 //
-bool NodeRange::IsMember(IEnvironment* pIEnv, char16 wch) const
+bool NodeRange::IsCharSetMember(IEnvironment* pIEnv, char16 wch) const
 {
-    if (wch >= GetMinChar() && wch <= GetMaxChar()) return ! m_fNot;
+    if (wch >= GetMinChar() && wch <= GetMaxChar()) return ! IsNot();
     if (IsIgnoreCase())
     {
         wch = pIEnv->CharUpcase(wch);
-        if (wch >= GetMinChar() && wch <= GetMaxChar()) return ! m_fNot;
+        if (wch >= GetMinChar() && wch <= GetMaxChar()) return ! IsNot();
     }
-    return m_fNot;
-} // NodeRange::IsMember
+    return IsNot();
+} // NodeRange::IsCharSetMember
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -381,11 +383,11 @@ Node* NodeRange::Simplify(IEnvironment* pIEnv, LocalHeap* pHeap)
 
         if (pIEnv->IsBothCase(wchMin) && pIEnv->IsBothCase(wchMax))
         {
-            m_eCase= CaseInsensitive;
+            set_case_sensivity(CaseInsensitive);
         }
         else
         {
-            m_eCase= CaseSensitive;
+            set_case_sensivity(CaseSensitive);
         }
 
         if (IsIgnoreCase())

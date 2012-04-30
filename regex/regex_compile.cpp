@@ -143,7 +143,7 @@ struct LoopInfo
 {
     int     m_iMax;
     int     m_iMin;
-    Node*   m_pNode;
+    Node*   node_;
 
     LoopInfo(
         int     iMin,
@@ -151,7 +151,7 @@ struct LoopInfo
         Node*   pNode ) :
         m_iMax(iMax),
         m_iMin(iMin),
-        m_pNode(pNode) {}
+        node_(pNode) {}
 }; // LoopInfo
 
 // maxMul
@@ -843,12 +843,12 @@ void NodeAtom::Compile(Compiler* pCompiler, int)
     if (NeedStack())
     {
         pCompiler->Emit(Op_SaveCxp);
-        m_pNode->Compile(pCompiler, 0);
+        GetNode()->Compile(pCompiler, 0);
         pCompiler->Emit(Op_RestoreCxp);
     }
     else
     {
-        m_pNode->Compile(pCompiler, 0);
+        GetNode()->Compile(pCompiler, 0);
     }
 } // NodeAtom::Compile
 
@@ -856,24 +856,22 @@ void NodeCapture::Compile(Compiler* pCompiler, int nMinRest)
 {
     pCompiler->Emit(Op_PushPosn);
     GetNode()->Compile(pCompiler, nMinRest);
-    pCompiler->Emit(GetOp(), m_iNth);
+    pCompiler->Emit(GetOp(), nth_);
 } // NodeCapture::Compile
 
 void NodeCaptureEq::Compile(Compiler* pCompiler, int)
 {
-    pCompiler->Emit(GetOp(), m_iNth);
+    pCompiler->Emit(GetOp(), GetNth());
 } // NodeCaptureEq::Compile
 
 void NodeChar::Compile(Compiler* pCompiler, int)
 {
-    pCompiler->Emit(GetOp(IsNot()), m_wch);
+    pCompiler->Emit(GetOp(IsNot()), char_);
 } // NodeChar::Compile
 
 void NodeChar::CompileNot(Compiler* pCompiler, int)
 {
-    pCompiler->Emit(
-        GetOp(! IsNot()),
-        m_wch );
+    pCompiler->Emit(GetOp(! IsNot()), char_); 
 } // NodeChar::CompileNot
 
 void NodeCharSet::Compile(Compiler* pCompiler, int)
@@ -1090,7 +1088,7 @@ compileMaxCapture(
         return false;
     }
 
-    NodeCapture* pNodeCapture = pLoop->m_pNode->DynamicCast<NodeCapture>();
+    NodeCapture* pNodeCapture = pLoop->node_->DynamicCast<NodeCapture>();
     if (NULL == pNodeCapture)
     {
         return false;
@@ -1145,7 +1143,7 @@ compileLoop(
     const LoopInfo* pLoop,
     int             nMinRest )
 {
-    int  nMinSubLen = pLoop->m_pNode->ComputeMinLength();
+    int  nMinSubLen = pLoop->node_->ComputeMinLength();
     bool fMatchNull = 0 == nMinSubLen;
     bool fCounter   = pLoop->m_iMin >= 2 || pLoop->m_iMax != Infinity;
     int  iPatch     = 0;
@@ -1174,7 +1172,7 @@ compileLoop(
     }
 
     pCompiler->StartLoop();
-    pLoop->m_pNode->Compile(pCompiler, nMinRest);
+    pLoop->node_->Compile(pCompiler, nMinRest);
     pCompiler->EndLoop();
 
     if (fMatchNull)
@@ -1332,7 +1330,7 @@ Compiler::CompileMaxSimple(
         return false;
     }
 
-    Node* pNode = pLoop->m_pNode;
+    Node* pNode = pLoop->node_;
 
     if (NodeAny* pAny = pNode->DynamicCast<NodeAny>())
     {
@@ -1453,14 +1451,14 @@ void NodeMax::Compile(Compiler* pCompiler, int nMinRest)
     {
         // For r? == r{0,1}
         int iPushPc = pCompiler->EmitRefLabel(Op_Or);
-        m_pNode->Compile(pCompiler, nMinRest);
+        GetNode()->Compile(pCompiler, nMinRest);
         pCompiler->PatchLabel(iPushPc);
         return;
     }
 
     if (oLoop.m_iMin == oLoop.m_iMax)
     {
-        if (pCompiler->CompileMaxFixed(oLoop.m_iMin, oLoop.m_pNode, nMinRest))
+        if (pCompiler->CompileMaxFixed(oLoop.m_iMin, oLoop.node_, nMinRest))
         {
             return;
         }
@@ -1487,14 +1485,14 @@ void NodeMin::Compile(Compiler* pCompiler, int nMinRest)
     if (0 == oLoop.m_iMin && 1 == oLoop.m_iMax)
     {
         int iPushPc = pCompiler->EmitRefLabel(Op_Push);
-        m_pNode->Compile(pCompiler, nMinRest);
+        GetNode()->Compile(pCompiler, nMinRest);
         pCompiler->PatchLabel(iPushPc);
         return;
     }
 
     if (oLoop.m_iMin == oLoop.m_iMax)
     {
-        if (pCompiler->CompileMaxFixed(oLoop.m_iMin, m_pNode, nMinRest))
+        if (pCompiler->CompileMaxFixed(oLoop.m_iMin, GetNode(), nMinRest))
         {
             return;
         }
